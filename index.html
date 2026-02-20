@@ -1,75 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Polyglot — Travel Flashcards</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
 
-<header>
-  <h1>Poly<em>glot</em></h1>
-  <p>1,000 travel words · FR · ES · IT · Latin roots</p>
-</header>
+  <header>
+    <h1>Poly<em>glot</em></h1>
+    <p>1,000 travel words · FR · ES · IT · Latin roots</p>
+  </header>
 
-<section class="stats">
-  <div>Card <span id="cardNum">1</span> / <span id="totalCards">0</span></div>
-  <div>Seen <span id="seenCount">0</span></div>
-</section>
+  <section class="stats">
+    <div>Card <span id="cardNum">1</span> / <span id="totalCards">0</span></div>
+    <div>Seen <span id="seenCount">0</span></div>
+  </section>
 
-<nav class="filter-bar" aria-label="Word type filter">
-  <button class="filter-btn active" data-type="all">All</button>
-  <button class="filter-btn" data-type="noun">Nouns</button>
-  <button class="filter-btn" data-type="adj">Adjectives</button>
-  <button class="filter-btn" data-type="verb">Verbs</button>
-  <button class="filter-btn" data-type="phrase">Phrases</button>
-</nav>
+  <nav class="filter-bar" aria-label="Word type filter">
+    <button class="filter-btn active" data-type="all">All</button>
+    <button class="filter-btn" data-type="noun">Nouns</button>
+    <button class="filter-btn" data-type="adj">Adjectives</button>
+    <button class="filter-btn" data-type="verb">Verbs</button>
+    <button class="filter-btn" data-type="phrase">Phrases</button>
+  </nav>
 
-<nav class="gender-bar" id="genderBar" aria-label="Adjective gender display">
-  <span class="gender-label">Adjectives:</span>
-  <button class="gender-btn active" data-gender="both">M + F</button>
-  <button class="gender-btn" data-gender="m">M</button>
-  <button class="gender-btn" data-gender="f">F</button>
-</nav>
+  <nav class="gender-bar" id="genderBar" aria-label="Adjective gender display">
+    <span class="gender-label">Adjectives:</span>
+    <button class="gender-btn active" data-gender="both">M + F</button>
+    <button class="gender-btn" data-gender="m">M</button>
+    <button class="gender-btn" data-gender="f">F</button>
+  </nav>
 
-<div class="progress-wrap">
-  <div class="progress-bar">
-    <div class="progress-fill" id="progressFill"></div>
-  </div>
-</div>
-
-<div class="card-wrap" id="cardWrap">
-  <div class="card" id="card">
-    <div class="card-face card-front">
-      <div class="type-badge" id="typeBadge"></div>
-      <div class="front-word" id="frontWord">loading…</div>
-      <div class="front-hint">tap to flip</div>
-    </div>
-
-    <div class="card-face card-back">
-      <div class="back-echo" id="backEcho"></div>
-      <div id="backContent"></div>
+  <div class="progress-wrap">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
   </div>
-</div>
 
-<div class="controls">
-  <button class="btn btn-ghost" id="btnPrev">← Prev</button>
-  <button class="btn btn-ghost" id="btnShuffle" title="Reshuffle">↻</button>
-  <button class="btn btn-next" id="btnNext">Next →</button>
-</div>
+  <div class="card-wrap" id="cardWrap">
+    <div class="card" id="card">
+      <div class="card-face card-front">
+        <div class="type-badge" id="typeBadge"></div>
+        <div class="front-word" id="frontWord">loading…</div>
+        <div class="front-hint">tap to flip</div>
+      </div>
 
-<div class="kh">
-  <div><kbd>Space</kbd> flip</div>
-  <div><kbd>←</kbd><kbd>→</kbd> nav</div>
-  <div><kbd>S</kbd> shuffle</div>
-</div>
+      <div class="card-face card-back">
+        <div class="back-echo" id="backEcho"></div>
+        <div id="backContent"></div>
+      </div>
+    </div>
+  </div>
 
-<script src="app.js" defer></script>
+  <div class="controls">
+    <button class="btn btn-ghost" id="btnPrev">← Prev</button>
+    <button class="btn btn-ghost" id="btnShuffle" title="Reshuffle">↻</button>
+    <button class="btn btn-next" id="btnNext">Next →</button>
+  </div>
+
+  <div class="kh">
+    <div><kbd>Space</kbd> flip</div>
+    <div><kbd>←</kbd><kbd>→</kbd> nav</div>
+    <div><kbd>S</kbd> shuffle</div>
+  </div>
+
+  <script src="app.js" defer></script>
 </body>
+
 </html>

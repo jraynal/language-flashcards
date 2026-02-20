@@ -188,9 +188,9 @@ const App = (() => {
   function pickVoiceFor(langTag) {
     const voices = speechSynthesis.getVoices() || [];
     if (!voices.length) return null;
-  
+
     const base = langTag.split("-")[0].toLowerCase();
-  
+
     // Prefer exact match (e.g., fr-FR), then base match (fr-*), then anything close.
     return (
       voices.find(v => (v.lang || "").toLowerCase() === langTag.toLowerCase()) ||
@@ -198,20 +198,20 @@ const App = (() => {
       null
     );
   }
-  
+
   function speak(text, langTag) {
     speechSynthesis.cancel();
-  
+
     const u = new SpeechSynthesisUtterance(text);
     u.lang = langTag;
     u.rate = 0.85;
-  
+
     const voice = pickVoiceFor(langTag);
     if (voice) u.voice = voice;
-  
+
     speechSynthesis.speak(u);
   }
-  
+
   // iOS: voices often load late; re-prime them.
   (function initVoices() {
     speechSynthesis.getVoices();
