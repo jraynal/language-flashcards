@@ -7,7 +7,11 @@ const App = (() => {
     filter: "all",
 
     // Applies ONLY to adjectives (type === "adj")
-    adjGender: "both" // "both" | "m" | "f"
+    adjGender: "both", // "both" | "m" | "f"
+
+    // Search (all languages). Search activates at 3+ characters.
+    searchQuery: "",
+    fuse: null
   };
 
   const dom = {};
@@ -18,37 +22,65 @@ const App = (() => {
       "backEcho", "backContent",
       "cardNum", "totalCards", "seenCount", "progressFill",
       "btnNext", "btnPrev", "btnShuffle",
-      "genderBar"
+      "genderBar",
+      "searchInput", "searchClear"
     ].forEach(id => dom[id] = document.getElementById(id));
 
     dom.filterButtons = document.querySelectorAll(".filter-btn");
     dom.genderButtons = document.querySelectorAll(".gender-btn");
   }
 
+  function norm(s) {
+    return (s ?? "")
+      .toString()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function buildSearchText(w) {
+    // Include everything reasonably searchable across languages.
+    // Adjective gender forms and noun articles included.
+    const parts = [
+      w.en, w.fr, w.es, w.it, w.lat,
+      w.fr_art, w.es_art, w.it_art,
+      w.fr_m, w.fr_f, w.es_m, w.es_f, w.it_m, w.it_f
+    ];
+    return norm(parts.filter(Boolean).join(" | "));
+  }
+
+  function initFuse() {
+    // Fuse.js is loaded via CDN; if unavailable (offline), we fall back.
+    if (typeof window.Fuse !== "function") {
+      state.fuse = null;
+      return;
+    }
+
+    state.fuse = new window.Fuse(state.words, {
+      includeScore: true,
+      ignoreLocation: true,
+      threshold: 0.35,
+      minMatchCharLength: 3,
+      keys: ["_search"]
+    });
+  }
+
   async function loadWords() {
     try {
       const res = await fetch("words.json");
-      state.words = await res.json();
+      const raw = await res.json();
+
+      state.words = raw.map(w => ({
+        ...w,
+        _search: buildSearchText(w)
+      }));
+
+      initFuse();
       initializeDeck();
     } catch {
       dom.frontWord.textContent = "Failed to load words.json";
     }
-  }
-
-  function initializeDeck() {
-    const indices = state.words
-      .map((_, i) => i)
-      .filter(i =>
-        state.filter === "all" ||
-        state.words[i].type === state.filter
-      );
-
-    state.deck = shuffle(indices);
-    state.currentIndex = 0;
-
-    dom.totalCards.textContent = state.deck.length;
-
-    if (state.deck.length) render();
   }
 
   function shuffle(array) {
@@ -60,13 +92,149 @@ const App = (() => {
     return arr;
   }
 
-  function currentWord() {
-    const idx = state.deck[state.currentIndex];
-    return state.words[idx];
+  function applyTypeFilter(indices) {
+    return indices.filter(i =>
+      state.filter === "all" || state.words[i]?.type === state.filter
+    );
+  }
+
+  function searchIndices(queryNorm) {
+    // Search activates at 3+ chars (per requirement).
+    if (queryNorm.length < 3) {
+      return state.words.map((_, i) => i);
+    }
+
+    // 1) Fuse (online / when loaded)
+    if (state.fuse) {
+      return state.fuse.search(queryNorm).map(r => r.refIndex);
+    }
+
+    // 2) Offline fallback: lightweight fuzzy scoring
+    return offlineSearch(queryNorm);
+  }
+
+  function offlineSearch(q) {
+    // Goal: good enough when offline. Not magic.
+    // Strategy:
+    // - Exact substring match: strong
+    // - Token overlap: medium
+    // - Near-match via small edit distance against tokens: weak
+    const qTokens = q.split(/\s+/).filter(Boolean);
+    const results = [];
+
+    for (let i = 0; i < state.words.length; i++) {
+      const hay = state.words[i]._search || "";
+      if (!hay) continue;
+
+      let score = Infinity;
+
+      const pos = hay.indexOf(q);
+      if (pos !== -1) {
+        // Earlier position = better
+        score = 0 + pos / 10000;
+      } else {
+        // Token overlap
+        let hits = 0;
+        for (const t of qTokens) if (t.length >= 3 && hay.includes(t)) hits++;
+        if (hits > 0) {
+          score = 1 - hits / Math.max(1, qTokens.length);
+        } else {
+          // Very small edit distance against individual tokens (bounded cost)
+          const best = bestTokenDistance(q, hay);
+          if (best <= 2) score = 2 + best / 10;
+        }
+      }
+
+      if (score !== Infinity) results.push({ i, score });
+    }
+
+    results.sort((a, b) => a.score - b.score);
+    return results.map(r => r.i);
+  }
+
+  function bestTokenDistance(q, hay) {
+    // Compare q to a limited set of tokens to keep it fast.
+    const tokens = hay.split(/[^a-z0-9]+/).filter(t => t.length >= 3);
+    let best = 99;
+    const limit = Math.min(tokens.length, 80);
+
+    for (let k = 0; k < limit; k++) {
+      const t = tokens[k];
+      // Quick bound: if length diff > 2, skip (since we only care <=2)
+      if (Math.abs(t.length - q.length) > 2) continue;
+      const d = levenshteinBounded(q, t, 2);
+      if (d < best) best = d;
+      if (best === 0) return 0;
+    }
+
+    return best;
+  }
+
+  function levenshteinBounded(a, b, max) {
+    // Bounded Levenshtein distance; returns max+1 if exceeds max.
+    const al = a.length, bl = b.length;
+    if (Math.abs(al - bl) > max) return max + 1;
+    if (al === 0) return bl <= max ? bl : max + 1;
+    if (bl === 0) return al <= max ? al : max + 1;
+
+    const prev = new Array(bl + 1);
+    const cur = new Array(bl + 1);
+
+    for (let j = 0; j <= bl; j++) prev[j] = j;
+
+    for (let i = 1; i <= al; i++) {
+      cur[0] = i;
+      let rowMin = cur[0];
+      const ai = a.charCodeAt(i - 1);
+
+      for (let j = 1; j <= bl; j++) {
+        const cost = ai === b.charCodeAt(j - 1) ? 0 : 1;
+        const val = Math.min(
+          prev[j] + 1,
+          cur[j - 1] + 1,
+          prev[j - 1] + cost
+        );
+        cur[j] = val;
+        if (val < rowMin) rowMin = val;
+      }
+
+      if (rowMin > max) return max + 1;
+
+      for (let j = 0; j <= bl; j++) prev[j] = cur[j];
+    }
+
+    return prev[bl] <= max ? prev[bl] : max + 1;
+  }
+
+  function initializeDeck() {
+    const q = norm(state.searchQuery);
+    let indices = searchIndices(q);
+    indices = applyTypeFilter(indices);
+
+    state.deck = shuffle(indices);
+    state.currentIndex = 0;
+
+    dom.totalCards.textContent = state.deck.length;
+
+    if (state.deck.length) {
+      render();
+    } else {
+      renderEmpty();
+    }
+  }
+
+  function renderEmpty() {
+    dom.card.classList.remove("flipped");
+    dom.typeBadge.textContent = "";
+    dom.typeBadge.className = "type-badge";
+    dom.frontWord.textContent = "No matches";
+    dom.backEcho.textContent = "";
+    dom.backContent.innerHTML = "";
+    dom.cardNum.textContent = "0";
   }
 
   function render() {
-    const word = currentWord();
+    const word = state.words[state.deck[state.currentIndex]];
     if (!word) return;
 
     dom.card.classList.remove("flipped");
@@ -80,6 +248,9 @@ const App = (() => {
     dom.seenCount.textContent = state.seen.size;
     dom.progressFill.style.width =
       (state.seen.size / state.words.length) * 100 + "%";
+
+    // Only show adjective gender bar when relevant
+    dom.genderBar.style.display = (word.type === "adj") ? "flex" : "none";
   }
 
   function renderFront(word) {
@@ -88,12 +259,12 @@ const App = (() => {
 
     dom.frontWord.textContent =
       word.type === "noun"
-        ? word.en.replace(/^the\s+/i, "")
-        : word.en;
+        ? (word.en || "").replace(/^the\s+/i, "")
+        : (word.en || "");
   }
 
   function renderBack(word) {
-    dom.backEcho.textContent = word.en;
+    dom.backEcho.textContent = word.en || "";
     dom.backContent.innerHTML = buildBack(word);
   }
 
@@ -107,7 +278,7 @@ const App = (() => {
     return (builders[word.type] || buildPhrase)(word);
   }
 
-  function translationRow(label, cls, html, speakText, speakLang) {
+  function translationRow(label, cls, html, speakText, speakLang, extraButtonsHtml = "") {
     const speakBtn = speakLang
       ? `<button class="speak-btn" data-text="${escapeAttr(speakText)}" data-lang="${escapeAttr(speakLang)}" title="Listen">🔊</button>`
       : "";
@@ -116,173 +287,155 @@ const App = (() => {
       <div class="translation-row">
         <div class="flag-label ${cls}">${label}</div>
         <div class="translation-text">${html}</div>
-        ${speakBtn}
+        ${extraButtonsHtml}${speakBtn}
       </div>
     `;
   }
 
-  function adjectiveRow(label, cls, mText, fText, speakLang) {
-    if (state.adjGender === "m") {
-      const html = `<div class="adj-pair"><div><span class="gl">M</span>${escapeHtml(mText)}</div></div>`;
-      return translationRow(label, cls, html, mText, speakLang);
-    }
-
-    if (state.adjGender === "f") {
-      const html = `<div class="adj-pair"><div><span class="gl">F</span>${escapeHtml(fText)}</div></div>`;
-      return translationRow(label, cls, html, fText, speakLang);
-    }
-
-    // both: show both + provide two speak buttons (M and F) so you can actually study separately
-    const html = `
-      <div class="adj-pair">
-        <div><span class="gl">M</span>${escapeHtml(mText)}</div>
-        <div><span class="gl">F</span>${escapeHtml(fText)}</div>
-      </div>
-    `;
-
-    const speakButtons = speakLang
-      ? `
-        <div class="adj-speak">
-          <button class="speak-btn" data-text="${escapeAttr(mText)}" data-lang="${escapeAttr(speakLang)}" title="Listen (M)">🔊</button>
-          <button class="speak-btn" data-text="${escapeAttr(fText)}" data-lang="${escapeAttr(speakLang)}" title="Listen (F)">🔊</button>
-        </div>
-      `
-      : "";
-
-    return `
-      <div class="translation-row">
-        <div class="flag-label ${cls}">${label}</div>
-        <div class="translation-text">${html}</div>
-        ${speakButtons}
-      </div>
-    `;
+  function escapeAttr(s) {
+    return (s ?? "").toString()
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   function buildNoun(w) {
     return [
-      translationRow("French", "fr", `<span class="art">${escapeHtml(w.fr_art)}</span> ${escapeHtml(w.fr)}`, `${w.fr_art} ${w.fr}`, "fr-FR"),
-      translationRow("Spanish", "es", `<span class="art">${escapeHtml(w.es_art)}</span> ${escapeHtml(w.es)}`, `${w.es_art} ${w.es}`, "es-ES"),
-      translationRow("Italian", "it", `<span class="art">${escapeHtml(w.it_art)}</span> ${escapeHtml(w.it)}`, `${w.it_art} ${w.it}`, "it-IT"),
-      translationRow("Latin", "lat", escapeHtml(w.lat || ""), "", "")
+      translationRow("French", "fr", `<span class="art">${w.fr_art ?? ""}</span> ${w.fr ?? ""}`, `${w.fr_art ?? ""} ${w.fr ?? ""}`.trim(), "fr-FR"),
+      translationRow("Spanish", "es", `<span class="art">${w.es_art ?? ""}</span> ${w.es ?? ""}`, `${w.es_art ?? ""} ${w.es ?? ""}`.trim(), "es-ES"),
+      translationRow("Italian", "it", `<span class="art">${w.it_art ?? ""}</span> ${w.it ?? ""}`, `${w.it_art ?? ""} ${w.it ?? ""}`.trim(), "it-IT"),
+      translationRow("Latin", "lat", `${w.lat ?? ""}`, "", "")
     ].join("");
   }
 
   function buildAdjective(w) {
+    // Display controlled by state.adjGender, but only affects adjective type.
+    const g = state.adjGender;
+
+    if (g === "m") {
+      return [
+        translationRow("French", "fr", w.fr_m ?? "", w.fr_m ?? "", "fr-FR"),
+        translationRow("Spanish", "es", w.es_m ?? "", w.es_m ?? "", "es-ES"),
+        translationRow("Italian", "it", w.it_m ?? "", w.it_m ?? "", "it-IT"),
+        translationRow("Root", "lat", `${w.lat ?? ""}`, "", "")
+      ].join("");
+    }
+
+    if (g === "f") {
+      return [
+        translationRow("French", "fr", w.fr_f ?? "", w.fr_f ?? "", "fr-FR"),
+        translationRow("Spanish", "es", w.es_f ?? "", w.es_f ?? "", "es-ES"),
+        translationRow("Italian", "it", w.it_f ?? "", w.it_f ?? "", "it-IT"),
+        translationRow("Root", "lat", `${w.lat ?? ""}`, "", "")
+      ].join("");
+    }
+
+    // both (default): show stacked M/F + two speak buttons
+    function adjPair(m, f) {
+      return `
+        <div class="adj-pair">
+          <div><span class="gl">M</span>${m ?? ""}</div>
+          <div><span class="gl">F</span>${f ?? ""}</div>
+        </div>
+      `;
+    }
+
+    function twoSpeakButtons(m, f, lang) {
+      const bm = `<button class="speak-btn" data-text="${escapeAttr(m ?? "")}" data-lang="${escapeAttr(lang)}" title="Listen (M)">🔊</button>`;
+      const bf = `<button class="speak-btn" data-text="${escapeAttr(f ?? "")}" data-lang="${escapeAttr(lang)}" title="Listen (F)">🔊</button>`;
+      return bm + bf;
+    }
+
     return [
-      adjectiveRow("French", "fr", w.fr_m || "", w.fr_f || "", "fr-FR"),
-      adjectiveRow("Spanish", "es", w.es_m || "", w.es_f || "", "es-ES"),
-      adjectiveRow("Italian", "it", w.it_m || "", w.it_f || "", "it-IT"),
-      translationRow("Root", "lat", escapeHtml(w.lat || ""), "", "")
+      translationRow("French", "fr", adjPair(w.fr_m, w.fr_f), "", "", twoSpeakButtons(w.fr_m, w.fr_f, "fr-FR")),
+      translationRow("Spanish", "es", adjPair(w.es_m, w.es_f), "", "", twoSpeakButtons(w.es_m, w.es_f, "es-ES")),
+      translationRow("Italian", "it", adjPair(w.it_m, w.it_f), "", "", twoSpeakButtons(w.it_m, w.it_f, "it-IT")),
+      translationRow("Root", "lat", `${w.lat ?? ""}`, "", "")
     ].join("");
   }
 
   function buildPhrase(w) {
     return [
-      translationRow("French", "fr", escapeHtml(w.fr || ""), w.fr || "", "fr-FR"),
-      translationRow("Spanish", "es", escapeHtml(w.es || ""), w.es || "", "es-ES"),
-      translationRow("Italian", "it", escapeHtml(w.it || ""), w.it || "", "it-IT"),
-      translationRow("Latin", "lat", escapeHtml(w.lat || ""), "", "")
+      translationRow("French", "fr", `${w.fr ?? ""}`, `${w.fr ?? ""}`, "fr-FR"),
+      translationRow("Spanish", "es", `${w.es ?? ""}`, `${w.es ?? ""}`, "es-ES"),
+      translationRow("Italian", "it", `${w.it ?? ""}`, `${w.it ?? ""}`, "it-IT"),
+      translationRow("Latin", "lat", `${w.lat ?? ""}`, "", "")
     ].join("");
   }
 
-  function pickVoiceFor(langTag) {
-    const voices = speechSynthesis.getVoices() || [];
-    if (!voices.length) return null;
-
-    const base = langTag.split("-")[0].toLowerCase();
-
-    // Prefer exact match (e.g., fr-FR), then base match (fr-*), then anything close.
-    return (
-      voices.find(v => (v.lang || "").toLowerCase() === langTag.toLowerCase()) ||
-      voices.find(v => (v.lang || "").toLowerCase().startsWith(base)) ||
-      null
-    );
-  }
-
-  function speak(text, langTag) {
+  function speak(text, lang) {
     speechSynthesis.cancel();
-
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = langTag;
+    u.lang = lang;
     u.rate = 0.85;
-
-    const voice = pickVoiceFor(langTag);
-    if (voice) u.voice = voice;
-
     speechSynthesis.speak(u);
   }
 
-  // iOS: voices often load late; re-prime them.
-  (function initVoices() {
-    speechSynthesis.getVoices();
-    if ("onvoiceschanged" in speechSynthesis) {
-      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-    }
-  })();
-
   function bindEvents() {
-    dom.cardWrap.addEventListener("click", () =>
-      dom.card.classList.toggle("flipped")
-    );
+    dom.cardWrap.addEventListener("click", () => dom.card.classList.toggle("flipped"));
 
-    dom.btnNext.addEventListener("click", e => { e.stopPropagation(); next(); });
-    dom.btnPrev.addEventListener("click", e => { e.stopPropagation(); prev(); });
-    dom.btnShuffle.addEventListener("click", e => { e.stopPropagation(); reshuffle(); });
+    dom.btnNext.addEventListener("click", (e) => { e.stopPropagation(); next(); });
+    dom.btnPrev.addEventListener("click", (e) => { e.stopPropagation(); prev(); });
+    dom.btnShuffle.addEventListener("click", (e) => { e.stopPropagation(); reshuffle(); });
 
     dom.filterButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         dom.filterButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
         state.filter = btn.dataset.type;
         initializeDeck();
       });
     });
 
-    // Gender toggle (affects adjectives only)
     dom.genderButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         dom.genderButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
         state.adjGender = btn.dataset.gender;
-        // Only re-render; deck doesn't change.
         render();
       });
     });
 
-    // Speak buttons (delegated)
-    dom.backContent.addEventListener("click", e => {
-      const btn = e.target.closest(".speak-btn");
-      if (!btn) return;
-
-      e.stopPropagation();
-      const text = btn.dataset.text || "";
-      const lang = btn.dataset.lang || "";
-      if (text && lang) speak(text, lang);
+    dom.searchInput?.addEventListener("input", () => {
+      state.searchQuery = dom.searchInput.value;
+      initializeDeck();
     });
 
-    // Keyboard
-    document.addEventListener("keydown", e => {
+    dom.searchClear?.addEventListener("click", () => {
+      dom.searchInput.value = "";
+      state.searchQuery = "";
+      initializeDeck();
+    });
+
+    // Delegated speak buttons (prevents inline onclick)
+    dom.backContent.addEventListener("click", (e) => {
+      const btn = e.target.closest(".speak-btn");
+      if (!btn) return;
+      e.stopPropagation();
+      speak(btn.dataset.text || "", btn.dataset.lang || "");
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (e) => {
       if (e.key === " ") {
         e.preventDefault();
         dom.card.classList.toggle("flipped");
-        return;
       }
       if (e.key === "ArrowRight" || e.key === "Enter") next();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "s" || e.key === "S") reshuffle();
     });
 
-    // Touch swipe
+    // Touch swipe navigation
     let tx = 0;
-    dom.cardWrap.addEventListener("touchstart", e => {
+    dom.cardWrap.addEventListener("touchstart", (e) => {
       tx = e.changedTouches[0].screenX;
     }, { passive: true });
 
-    dom.cardWrap.addEventListener("touchend", e => {
+    dom.cardWrap.addEventListener("touchend", (e) => {
       const d = e.changedTouches[0].screenX - tx;
-      if (Math.abs(d) > 60) (d < 0 ? next() : prev());
+      if (Math.abs(d) > 60) d < 0 ? next() : prev();
     }, { passive: true });
   }
 
@@ -302,26 +455,6 @@ const App = (() => {
     state.deck = shuffle(state.deck);
     state.currentIndex = 0;
     if (state.deck.length) render();
-  }
-
-  // Minimal escaping to reduce injection risk (your original used innerHTML everywhere).
-  function escapeHtml(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
-
-  function escapeAttr(s) {
-    // For attribute values used in data-*; escape quotes and ampersands.
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
   }
 
   function init() {

@@ -22,11 +22,11 @@
   </header>
 
   <section class="stats">
-    <div>Card <span id="cardNum">1</span> / <span id="totalCards">0</span></div>
+    <div>Card <span id="cardNum">0</span> / <span id="totalCards">0</span></div>
     <div>Seen <span id="seenCount">0</span></div>
   </section>
 
-  <nav class="filter-bar" aria-label="Word type filter">
+  <nav class="filter-bar" aria-label="Type filters">
     <button class="filter-btn active" data-type="all">All</button>
     <button class="filter-btn" data-type="noun">Nouns</button>
     <button class="filter-btn" data-type="adj">Adjectives</button>
@@ -34,12 +34,18 @@
     <button class="filter-btn" data-type="phrase">Phrases</button>
   </nav>
 
+  <!-- Applies ONLY to adjectives -->
   <nav class="gender-bar" id="genderBar" aria-label="Adjective gender display">
-    <span class="gender-label">Adjectives:</span>
-    <button class="gender-btn active" data-gender="both">M + F</button>
-    <button class="gender-btn" data-gender="m">M</button>
-    <button class="gender-btn" data-gender="f">F</button>
+    <button class="gender-btn active" data-gender="both" title="Show both masculine and feminine">M+F</button>
+    <button class="gender-btn" data-gender="m" title="Show masculine only">M</button>
+    <button class="gender-btn" data-gender="f" title="Show feminine only">F</button>
   </nav>
+
+  <div class="search-bar" aria-label="Search">
+    <input id="searchInput" type="search" placeholder="Search EN / FR / ES / IT / Latin…" autocomplete="off"
+      spellcheck="false" />
+    <button class="btn btn-ghost" id="searchClear" type="button">Clear</button>
+  </div>
 
   <div class="progress-wrap">
     <div class="progress-bar">
@@ -74,6 +80,8 @@
     <div><kbd>S</kbd> shuffle</div>
   </div>
 
+  <!-- Fuse.js (online). If it fails to load, app.js falls back to offline search. -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script src="app.js" defer></script>
 </body>
 
