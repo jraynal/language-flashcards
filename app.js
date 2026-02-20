@@ -185,16 +185,40 @@ const App = (() => {
     ].join("");
   }
 
-  function speak(text, lang) {
+  function pickVoiceFor(langTag) {
+    const voices = speechSynthesis.getVoices() || [];
+    if (!voices.length) return null;
+  
+    const base = langTag.split("-")[0].toLowerCase();
+  
+    // Prefer exact match (e.g., fr-FR), then base match (fr-*), then anything close.
+    return (
+      voices.find(v => (v.lang || "").toLowerCase() === langTag.toLowerCase()) ||
+      voices.find(v => (v.lang || "").toLowerCase().startsWith(base)) ||
+      null
+    );
+  }
+  
+  function speak(text, langTag) {
     speechSynthesis.cancel();
-
+  
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang;
+    u.lang = langTag;
     u.rate = 0.85;
-
-    // Voice selection is browser-dependent; keep it simple and reliable.
+  
+    const voice = pickVoiceFor(langTag);
+    if (voice) u.voice = voice;
+  
     speechSynthesis.speak(u);
   }
+  
+  // iOS: voices often load late; re-prime them.
+  (function initVoices() {
+    speechSynthesis.getVoices();
+    if ("onvoiceschanged" in speechSynthesis) {
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+  })();
 
   function bindEvents() {
     dom.cardWrap.addEventListener("click", () =>
