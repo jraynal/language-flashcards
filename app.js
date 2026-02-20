@@ -20,7 +20,7 @@ const App = (() => {
       "backEcho", "backContent",
       "cardNum", "totalCards", "seenCount", "progressFill",
       "btnNext", "btnPrev", "btnSearch", "btnShuffle",
-      "searchWidget", "searchInput", "searchClear", "searchSuggestions"
+      "searchOverlay", "searchPanel", "searchInput", "searchClear", "searchSuggestions"
     ].forEach(id => dom[id] = document.getElementById(id));
 
     dom.filterButtons = document.querySelectorAll(".filter-btn");
@@ -33,6 +33,16 @@ const App = (() => {
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase()
       .trim();
+  }
+
+
+  function isSearchActive() {
+    // Treat search as active if the input is focused OR suggestions are visible OR searchOpen flag is true.
+    const ae = document.activeElement;
+    if (state.searchOpen) return true;
+    if (dom.searchInput && ae === dom.searchInput) return true;
+    if (dom.searchSuggestions && !dom.searchSuggestions.hidden) return true;
+    return false;
   }
 
   function buildSearchText(w) {
@@ -206,13 +216,11 @@ const App = (() => {
   }
 
   function initializeDeck() {
-    const q = norm(state.searchQuery);
-    let indices = searchIndices(q);
+    // Deck is independent of search; search is suggestions-only until a selection is made.
+    let indices = state.words.map((_, i) => i);
     indices = applyTypeFilter(indices);
 
-    renderSuggestions(indices);
-
-    state.deck = (q.length >= 3) ? indices : shuffle(indices);
+    state.deck = shuffle(indices);
     state.currentIndex = 0;
 
     dom.totalCards.textContent = state.deck.length;
@@ -234,7 +242,7 @@ const App = (() => {
     dom.cardNum.textContent = "0";
   }
 
-  
+
   function escapeHtml(s) {
     return (s ?? "").toString()
       .replace(/&/g, "&amp;")
@@ -246,8 +254,14 @@ const App = (() => {
 
   function renderSuggestions(indices) {
     if (!dom.searchSuggestions) return;
+    if (!state.searchOpen) {
+      dom.searchSuggestions.hidden = true;
+      dom.searchSuggestions.innerHTML = "";
+      return;
+    }
 
     const q = norm(state.searchQuery);
+
     if (q.length < 3) {
       dom.searchSuggestions.hidden = true;
       dom.searchSuggestions.innerHTML = "";
@@ -282,19 +296,39 @@ const App = (() => {
     dom.searchSuggestions.hidden = false;
   }
 
+  function updateSuggestions() {
+    const q = norm(state.searchQuery);
+    // Only suggest when search is open; otherwise keep hidden.
+    if (!state.searchOpen) {
+      if (dom.searchSuggestions) {
+        dom.searchSuggestions.hidden = true;
+        dom.searchSuggestions.innerHTML = "";
+      }
+      return;
+    }
+    let indices = searchIndices(q);
+    // Respect current type filter for suggestions (keeps results sane).
+    indices = applyTypeFilter(indices);
+    renderSuggestions(indices);
+  }
 
   function openSearch() {
     state.searchOpen = true;
-    if (dom.searchWidget) dom.searchWidget.hidden = false;
-    // Show suggestions for current query (if any)
-    initializeDeck(); // keeps deck consistent with query/type
+    if (dom.searchOverlay) {
+      dom.searchOverlay.hidden = false;
+      dom.searchOverlay.setAttribute("aria-hidden", "false");
+    }
+    // Do NOT rebuild the deck; search is non-destructive until a selection is made.
+    updateSuggestions();
     dom.searchInput?.focus();
   }
 
   function closeSearch() {
     state.searchOpen = false;
-    if (dom.searchWidget) dom.searchWidget.hidden = true;
-    // hide suggestions panel; keep query text untouched
+    if (dom.searchOverlay) {
+      dom.searchOverlay.hidden = true;
+      dom.searchOverlay.setAttribute("aria-hidden", "true");
+    }
     if (dom.searchSuggestions) {
       dom.searchSuggestions.hidden = true;
       dom.searchSuggestions.innerHTML = "";
@@ -306,7 +340,7 @@ const App = (() => {
     state.searchOpen ? closeSearch() : openSearch();
   }
 
-function render() {
+  function render() {
     const word = state.words[state.deck[state.currentIndex]];
     if (!word) return;
 
@@ -430,7 +464,7 @@ function render() {
 
   function bindEvents() {
     dom.cardWrap.addEventListener("click", () => {
-      if (state.searchOpen) return;
+      if (isSearchActive()) return;
       dom.card.classList.toggle("flipped");
     });
 
@@ -443,30 +477,33 @@ function render() {
       toggleSearch();
     });
 
-    // Close search when clicking outside the widget
-    document.addEventListener("click", (e) => {
-      if (!state.searchOpen) return;
-      const t = e.target;
-      if (dom.searchWidget && dom.searchWidget.contains(t)) return;
-      if (dom.btnSearch && dom.btnSearch.contains(t)) return;
-      closeSearch();
+    // Close search when clicking outside the panel
+    dom.searchOverlay?.addEventListener("click", (e) => {
+      // Only close if the backdrop itself was clicked
+      if (e.target === dom.searchOverlay) closeSearch();
     });
 
-    // Prevent clicks inside the search widget from bubbling to card handlers
-    dom.searchWidget?.addEventListener("click", (e) => e.stopPropagation());
+    dom.searchPanel?.addEventListener("click", (e) => e.stopPropagation());
 
     dom.filterButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         dom.filterButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         state.filter = btn.dataset.type;
-        initializeDeck();
+        // Rebuild deck, but try to keep the current word visible if it still exists in the filtered deck.
+        const currentWordIdx = state.deck[state.currentIndex];
+        const indices = state.words.map((_, i) => i).filter(i => state.filter === "all" || state.words[i]?.type === state.filter);
+        state.deck = shuffle(indices);
+        const newPos = state.deck.indexOf(currentWordIdx);
+        state.currentIndex = newPos >= 0 ? newPos : 0;
+        dom.totalCards.textContent = state.deck.length;
+        state.deck.length ? render() : renderEmpty();
       });
     });
 
     dom.searchInput?.addEventListener("input", () => {
       state.searchQuery = dom.searchInput.value;
-      initializeDeck();
+      updateSuggestions();
     });
 
     dom.searchInput?.addEventListener("keydown", (e) => {
@@ -477,17 +514,41 @@ function render() {
       }
     });
 
-    dom.searchClear?.addEventListener("click", () => {
+    dom.searchClear?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (!dom.searchInput) return;
       dom.searchInput.value = "";
       state.searchQuery = "";
-      initializeDeck();
+      updateSuggestions();
+      dom.searchInput.focus();
+    });
+
+    dom.searchSuggestions?.addEventListener("click", (e) => {
+      const btn = e.target.closest(".suggestion-item");
+      if (!btn) return;
+      e.stopPropagation();
+
+      const idx = Number(btn.dataset.idx);
+      if (!Number.isInteger(idx)) return;
+
+      // Jump within current deck if present; otherwise show the selected card alone.
+      const pos = state.deck.indexOf(idx);
+      if (pos >= 0) {
+        state.currentIndex = pos;
+      } else {
+        state.deck = [idx];
+        state.currentIndex = 0;
+        dom.totalCards.textContent = "1";
+      }
+
+      render();
+      closeSearch();
     });
 
     // Prevent search interactions from triggering card handlers (mobile edge cases)
     const stop = (e) => e.stopPropagation();
     dom.searchInput?.addEventListener("click", stop);
     dom.searchInput?.addEventListener("touchstart", stop, { passive: true });
-    dom.searchClear?.addEventListener("click", stop);
 
     // Delegated speak buttons (prevents inline onclick)
     dom.backContent.addEventListener("click", (e) => {
@@ -503,6 +564,7 @@ function render() {
       if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.tagName === "SELECT" || ae.isContentEditable)) {
         return;
       }
+      if (isSearchActive()) return;
       if (e.key === " ") {
         e.preventDefault();
         dom.card.classList.toggle("flipped");
@@ -515,12 +577,12 @@ function render() {
     // Touch swipe navigation
     let tx = 0;
     dom.cardWrap.addEventListener("touchstart", (e) => {
-      if (state.searchOpen) return;
+      if (isSearchActive()) return;
       tx = e.changedTouches[0].screenX;
     }, { passive: true });
 
     dom.cardWrap.addEventListener("touchend", (e) => {
-      if (state.searchOpen) return;
+      if (isSearchActive()) return;
       const d = e.changedTouches[0].screenX - tx;
       if (Math.abs(d) > 60) {
         d < 0 ? next() : prev();

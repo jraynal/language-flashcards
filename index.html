@@ -22,11 +22,11 @@
   </header>
 
   <section class="stats">
-    <div>Card <span id="cardNum">0</span> / <span id="totalCards">0</span></div>
+    <div>Card <span id="cardNum">1</span> / <span id="totalCards">0</span></div>
     <div>Seen <span id="seenCount">0</span></div>
   </section>
 
-  <nav class="filter-bar" aria-label="Type filters">
+  <nav class="filter-bar" aria-label="Word type filter">
     <button class="filter-btn active" data-type="all">All</button>
     <button class="filter-btn" data-type="noun">Nouns</button>
     <button class="filter-btn" data-type="adj">Adjectives</button>
@@ -34,13 +34,7 @@
     <button class="filter-btn" data-type="phrase">Phrases</button>
   </nav>
 
-  <div class="search-bar" aria-label="Search">
-    <input id="searchInput" type="search" placeholder="Search EN / FR / ES / IT / Latin…" autocomplete="off"
-      spellcheck="false" />
-    <button class="btn btn-ghost" id="searchClear" type="button">Clear</button>
-  </div>
 
-  <div class="search-suggestions" id="searchSuggestions" role="listbox" aria-label="Search suggestions" hidden></div>
 
   <div class="progress-wrap">
     <div class="progress-bar">
@@ -65,6 +59,7 @@
 
   <div class="controls">
     <button class="btn btn-ghost" id="btnPrev">← Prev</button>
+    <button class="btn btn-ghost" id="btnSearch" title="Search">🔎</button>
     <button class="btn btn-ghost" id="btnShuffle" title="Reshuffle">↻</button>
     <button class="btn btn-next" id="btnNext">Next →</button>
   </div>
@@ -75,9 +70,19 @@
     <div><kbd>S</kbd> shuffle</div>
   </div>
 
-  <!-- Fuse.js (online). If it fails to load, app.js falls back to offline search. -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script src="app.js" defer></script>
+
+  <div class="search-overlay" id="searchOverlay" hidden aria-hidden="true">
+    <div class="search-panel" id="searchPanel" role="dialog" aria-modal="true" aria-label="Search">
+      <div class="search-bar">
+        <input id="searchInput" type="search" placeholder="Search EN / FR / ES / IT / Latin…" autocomplete="off" />
+        <button id="searchClear" class="btn btn-ghost" type="button">Clear</button>
+      </div>
+      <div class="search-suggestions" id="searchSuggestions" role="listbox" aria-label="Search suggestions" hidden></div>
+    </div>
+  </div>
+
 </body>
 
 </html>

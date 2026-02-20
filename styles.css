@@ -627,3 +627,40 @@ header p {
 /* Search widget container (hidden by default) */
 .search-widget{width:100%}
 .search-widget[hidden]{display:none}
+
+/* Search overlay */
+.search-overlay[hidden]{display:none}
+.search-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:5.5rem 1rem 1rem;
+  z-index:50;
+}
+.search-panel{
+  width:100%;
+  max-width:560px;
+  background:rgba(245,240,232,.96);
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.22);
+  padding: .9rem .9rem .5rem;
+}
+.search-panel .search-bar{
+  width:100%;
+  max-width:none;
+  padding:0;
+}
+.search-panel .search-suggestions{
+  width:100%;
+  max-width:none;
+  padding: .5rem 0 0;
+}
+.search-panel .suggestions-panel{
+  background:rgba(255,255,255,.85);
+}
