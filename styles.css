@@ -571,3 +571,55 @@ header p {
   border-color: rgba(0, 0, 0, 0.25);
   background: #fff;
 }
+/* Search suggestions */
+.search-suggestions{
+  width:100%;
+  max-width:520px;
+  padding:0 1rem .75rem;
+}
+.search-suggestions[hidden]{display:none}
+.search-suggestions .suggestions-panel{
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:12px;
+  background:rgba(255,255,255,.9);
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.search-suggestions button{
+  width:100%;
+  text-align:left;
+  background:transparent;
+  border:none;
+  padding:.55rem .75rem;
+  cursor:pointer;
+  display:flex;
+  gap:.6rem;
+  align-items:baseline;
+}
+.search-suggestions button:hover{
+  background:rgba(0,0,0,.04);
+}
+.search-suggestions .s-type{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;
+  opacity:.55;
+  width:58px;
+  flex-shrink:0;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.search-suggestions .s-main{
+  font-family:'Instrument Serif',serif;
+  font-size:1.05rem;
+  line-height:1.2;
+  flex:1;
+  color:var(--ink);
+}
+.search-suggestions .s-sub{
+  font-family:'DM Sans',sans-serif;
+  font-size:.75rem;
+  opacity:.55;
+  color:var(--ink);
+  margin-left:auto;
+  white-space:nowrap;
+}

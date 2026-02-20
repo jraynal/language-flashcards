@@ -19,7 +19,7 @@ const App = (() => {
       "backEcho", "backContent",
       "cardNum", "totalCards", "seenCount", "progressFill",
       "btnNext", "btnPrev", "btnShuffle",
-      "searchInput", "searchClear"
+      "searchInput", "searchClear", "searchSuggestions"
     ].forEach(id => dom[id] = document.getElementById(id));
 
     dom.filterButtons = document.querySelectorAll(".filter-btn");
@@ -66,8 +66,9 @@ const App = (() => {
       const res = await fetch("words.json");
       const raw = await res.json();
 
-      state.words = raw.map(w => ({
+      state.words = raw.map((w, i) => ({
         ...w,
+        __i: i,
         _search: buildSearchText(w)
       }));
 
@@ -101,7 +102,9 @@ const App = (() => {
 
     // 1) Fuse (online / when loaded)
     if (state.fuse) {
-      return state.fuse.search(queryNorm).map(r => r.refIndex);
+      return state.fuse.search(queryNorm)
+        .map(r => (Number.isInteger(r.refIndex) ? r.refIndex : r.item?.__i))
+        .filter(i => Number.isInteger(i));
     }
 
     // 2) Offline fallback: lightweight fuzzy scoring
@@ -206,7 +209,9 @@ const App = (() => {
     let indices = searchIndices(q);
     indices = applyTypeFilter(indices);
 
-    state.deck = shuffle(indices);
+    renderSuggestions(indices);
+
+    state.deck = (q.length >= 3) ? indices : shuffle(indices);
     state.currentIndex = 0;
 
     dom.totalCards.textContent = state.deck.length;
@@ -228,7 +233,62 @@ const App = (() => {
     dom.cardNum.textContent = "0";
   }
 
-  function render() {
+  
+  function escapeHtml(s) {
+    return (s ?? "").toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function renderSuggestions(indices) {
+    if (!dom.searchSuggestions) return;
+
+    const q = norm(state.searchQuery);
+    if (q.length < 3) {
+      dom.searchSuggestions.hidden = true;
+      dom.searchSuggestions.innerHTML = "";
+      return;
+    }
+
+    const max = 8;
+    const items = indices.slice(0, max).map(i => state.words[i]).filter(Boolean);
+
+    if (!items.length) {
+      dom.searchSuggestions.hidden = true;
+      dom.searchSuggestions.innerHTML = "";
+      return;
+    }
+
+    const panel = items.map(w => {
+      const title = w.type === "noun"
+        ? (w.en || "").replace(/^the\s+/i, "")
+        : (w.en || "");
+      const sub = [w.fr, w.es, w.it].filter(Boolean).join(" · ");
+      const dataIdx = w.__i;
+      return `
+        <button type="button" class="suggestion-item" data-idx="${dataIdx}">
+          <span class="s-type">${escapeHtml(w.type || "")}</span>
+          <span class="s-main">${escapeHtml(title)}</span>
+          <span class="s-sub">${escapeHtml(sub)}</span>
+        </button>
+      `;
+    }).join("");
+
+    dom.searchSuggestions.innerHTML = `<div class="suggestions-panel">${panel}</div>`;
+    dom.searchSuggestions.hidden = false;
+  }
+
+  function jumpToIndex(idx) {
+    const pos = state.deck.indexOf(idx);
+    state.currentIndex = pos === -1 ? 0 : pos;
+    if (pos === -1) state.deck = [idx];
+    render();
+  }
+
+function render() {
     const word = state.words[state.deck[state.currentIndex]];
     if (!word) return;
 
@@ -371,11 +431,19 @@ const App = (() => {
       initializeDeck();
     });
 
+    dom.searchInput?.addEventListener("keydown", (e) => { e.stopPropagation(); });
+
     dom.searchClear?.addEventListener("click", () => {
       dom.searchInput.value = "";
       state.searchQuery = "";
       initializeDeck();
     });
+
+    // Prevent search interactions from triggering card handlers (mobile edge cases)
+    const stop = (e) => e.stopPropagation();
+    dom.searchInput?.addEventListener("click", stop);
+    dom.searchInput?.addEventListener("touchstart", stop, { passive: true });
+    dom.searchClear?.addEventListener("click", stop);
 
     // Delegated speak buttons (prevents inline onclick)
     dom.backContent.addEventListener("click", (e) => {
@@ -387,6 +455,10 @@ const App = (() => {
 
     // Keyboard shortcuts
     document.addEventListener("keydown", (e) => {
+      const ae = document.activeElement;
+      if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.tagName === "SELECT" || ae.isContentEditable)) {
+        return;
+      }
       if (e.key === " ") {
         e.preventDefault();
         dom.card.classList.toggle("flipped");
