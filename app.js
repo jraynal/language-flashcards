@@ -367,9 +367,8 @@ const App = (() => {
         : (word.en || "");
     }
     if (word.type === "adj") {
-      const lastWord = s => s.trim().split(/\s+/).pop() ?? s;
-      const m = lastWord(word[`${lang}_m`] ?? "");
-      const f = lastWord(word[`${lang}_f`] ?? "");
+      const m = word[`${lang}_adj_m`] ?? "";
+      const f = word[`${lang}_adj_f`] ?? "";
       if (m && f && m !== f) return `${m} / ${f}`;
       return m || f || word[lang] || "";
     }
@@ -432,24 +431,22 @@ const App = (() => {
   // Language config: all non-Latin languages available on the back.
   const LANGS = [
     { key: "en",  label: "English", cls: "en",  speakLang: "en-GB",
-      noun: w => ({ html: w.en ?? "", speak: w.en ?? "" }),
-      adj:  w => ({ html: w.en ?? "", speak: w.en ?? "" }),
+      noun:   w => ({ html: w.en ?? "", speak: w.en ?? "" }),
+      adjMF:  w => [w.en_m ?? "", w.en_f ?? ""],
       phrase: w => ({ html: w.en ?? "", speak: w.en ?? "" }) },
     { key: "fr",  label: "French",  cls: "fr",  speakLang: "fr-FR",
-      noun: w => ({ html: `<span class="art">${w.fr_art ?? ""}</span> ${w.fr ?? ""}`, speak: `${w.fr_art ?? ""} ${w.fr ?? ""}`.trim() }),
-      adj:  w => null, // uses adjRow
+      noun:   w => ({ html: `<span class="art">${w.fr_art ?? ""}</span> ${w.fr ?? ""}`, speak: `${w.fr_art ?? ""} ${w.fr ?? ""}`.trim() }),
+      adjMF:  w => [w.fr_m ?? "", w.fr_f ?? ""],
       phrase: w => ({ html: w.fr ?? "", speak: w.fr ?? "" }) },
     { key: "es",  label: "Spanish", cls: "es",  speakLang: "es-ES",
-      noun: w => ({ html: `<span class="art">${w.es_art ?? ""}</span> ${w.es ?? ""}`, speak: `${w.es_art ?? ""} ${w.es ?? ""}`.trim() }),
-      adj:  w => null,
+      noun:   w => ({ html: `<span class="art">${w.es_art ?? ""}</span> ${w.es ?? ""}`, speak: `${w.es_art ?? ""} ${w.es ?? ""}`.trim() }),
+      adjMF:  w => [w.es_m ?? "", w.es_f ?? ""],
       phrase: w => ({ html: w.es ?? "", speak: w.es ?? "" }) },
     { key: "it",  label: "Italian", cls: "it",  speakLang: "it-IT",
-      noun: w => ({ html: `<span class="art">${w.it_art ?? ""}</span> ${w.it ?? ""}`, speak: `${w.it_art ?? ""} ${w.it ?? ""}`.trim() }),
-      adj:  w => null,
+      noun:   w => ({ html: `<span class="art">${w.it_art ?? ""}</span> ${w.it ?? ""}`, speak: `${w.it_art ?? ""} ${w.it ?? ""}`.trim() }),
+      adjMF:  w => [w.it_m ?? "", w.it_f ?? ""],
       phrase: w => ({ html: w.it ?? "", speak: w.it ?? "" }) },
   ];
-
-  const ADJ_KEYS = { fr: ["fr_m","fr_f"], es: ["es_m","es_f"], it: ["it_m","it_f"] };
 
   function buildNoun(w) {
     return LANGS
@@ -466,11 +463,8 @@ const App = (() => {
     return LANGS
       .filter(l => l.key !== state.frontLang)
       .map(l => {
-        if (l.key === "en") {
-          return translationRow(l.label, l.cls, w.en ?? "", w.en ?? "", l.speakLang);
-        }
-        const [mk, fk] = ADJ_KEYS[l.key];
-        return adjRow(l.label, l.cls, w[mk], w[fk], l.speakLang);
+        const [masc, fem] = l.adjMF(w);
+        return adjRow(l.label, l.cls, masc, fem, l.speakLang);
       })
       .concat(translationRow("Root", "lat", w.lat ?? ""))
       .join("");

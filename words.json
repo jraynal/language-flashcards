@@ -936,7 +936,15 @@
         "es_f": "una ciudad grande",
         "it_m": "un grande albergo",
         "it_f": "una grande città",
-        "lat": "magnus"
+        "lat": "magnus",
+        "fr_adj_m": "grand",
+        "fr_adj_f": "grande",
+        "es_adj_m": "grande",
+        "es_adj_f": "grande",
+        "it_adj_m": "grande",
+        "it_adj_f": "grande",
+        "en_m": "a big hotel",
+        "en_f": "a big city"
     },
     {
         "type": "adj",
@@ -947,7 +955,15 @@
         "es_f": "una calle pequeña",
         "it_m": "un piccolo caffè",
         "it_f": "una piccola strada",
-        "lat": "parvus"
+        "lat": "parvus",
+        "fr_adj_m": "petit",
+        "fr_adj_f": "petite",
+        "es_adj_m": "pequeño",
+        "es_adj_f": "pequeña",
+        "it_adj_m": "piccolo",
+        "it_adj_f": "piccola",
+        "en_m": "a small café",
+        "en_f": "a small street"
     },
     {
         "type": "adj",
@@ -958,7 +974,15 @@
         "es_f": "una sopa caliente",
         "it_m": "un tè caldo",
         "it_f": "una zuppa calda",
-        "lat": "calidus"
+        "lat": "calidus",
+        "fr_adj_m": "chaud",
+        "fr_adj_f": "chaude",
+        "es_adj_m": "caliente",
+        "es_adj_f": "caliente",
+        "it_adj_m": "caldo",
+        "it_adj_f": "calda",
+        "en_m": "a hot tea",
+        "en_f": "a hot soup"
     },
     {
         "type": "adj",
@@ -969,7 +993,15 @@
         "es_f": "una noche fría",
         "it_m": "un vento freddo",
         "it_f": "una notte fredda",
-        "lat": "frigidus"
+        "lat": "frigidus",
+        "fr_adj_m": "froid",
+        "fr_adj_f": "froide",
+        "es_adj_m": "frío",
+        "es_adj_f": "fría",
+        "it_adj_m": "freddo",
+        "it_adj_f": "fredda",
+        "en_m": "a cold wind",
+        "en_f": "a cold night"
     },
     {
         "type": "adj",
@@ -980,7 +1012,15 @@
         "es_f": "una buena comida",
         "it_m": "un buon giorno",
         "it_f": "una buona giornata",
-        "lat": "bonus"
+        "lat": "bonus",
+        "fr_adj_m": "bon",
+        "fr_adj_f": "bonne",
+        "es_adj_m": "buen",
+        "es_adj_f": "buena",
+        "it_adj_m": "buon",
+        "it_adj_f": "buona",
+        "en_m": "a good meal",
+        "en_f": "a good day"
     },
     {
         "type": "adj",
@@ -991,7 +1031,15 @@
         "es_f": "una mala idea",
         "it_m": "un cattivo tempo",
         "it_f": "una cattiva idea",
-        "lat": "malus"
+        "lat": "malus",
+        "fr_adj_m": "mauvais",
+        "fr_adj_f": "mauvaise",
+        "es_adj_m": "mal",
+        "es_adj_f": "mala",
+        "it_adj_m": "cattivo",
+        "it_adj_f": "cattiva",
+        "en_m": "bad weather",
+        "en_f": "a bad idea"
     },
     {
         "type": "adj",
@@ -1002,7 +1050,15 @@
         "es_f": "una habitación nueva",
         "it_m": "un ristorante nuovo",
         "it_f": "una camera nuova",
-        "lat": "novus"
+        "lat": "novus",
+        "fr_adj_m": "nouveau",
+        "fr_adj_f": "nouvelle",
+        "es_adj_m": "nuevo",
+        "es_adj_f": "nueva",
+        "it_adj_m": "nuovo",
+        "it_adj_f": "nuova",
+        "en_m": "a new restaurant",
+        "en_f": "a new room"
     },
     {
         "type": "adj",
@@ -1013,7 +1069,15 @@
         "es_f": "una iglesia vieja",
         "it_m": "un vecchio ponte",
         "it_f": "una vecchia chiesa",
-        "lat": "vetus"
+        "lat": "vetus",
+        "fr_adj_m": "vieux",
+        "fr_adj_f": "vieille",
+        "es_adj_m": "viejo",
+        "es_adj_f": "vieja",
+        "it_adj_m": "vecchio",
+        "it_adj_f": "vecchia",
+        "en_m": "an old bridge",
+        "en_f": "an old church"
     },
     {
         "type": "adj",
@@ -1024,7 +1088,15 @@
         "es_f": "una vista hermosa",
         "it_m": "un bel giardino",
         "it_f": "una bella vista",
-        "lat": "pulcher"
+        "lat": "pulcher",
+        "fr_adj_m": "beau",
+        "fr_adj_f": "belle",
+        "es_adj_m": "hermoso",
+        "es_adj_f": "hermosa",
+        "it_adj_m": "bel",
+        "it_adj_f": "bella",
+        "en_m": "a beautiful garden",
+        "en_f": "a beautiful view"
     },
     {
         "type": "adj",
@@ -1035,7 +1107,15 @@
         "es_f": "una bicicleta rápida",
         "it_m": "un treno veloce",
         "it_f": "una macchina veloce",
-        "lat": "velox"
+        "lat": "velox",
+        "fr_adj_m": "rapide",
+        "fr_adj_f": "rapide",
+        "es_adj_m": "rápido",
+        "es_adj_f": "rápida",
+        "it_adj_m": "veloce",
+        "it_adj_f": "veloce",
+        "en_m": "a fast train",
+        "en_f": "a fast car"
     },
     {
         "type": "adj",
@@ -1046,7 +1126,15 @@
         "es_f": "una caminata lenta",
         "it_m": "un autobus lento",
         "it_f": "una passeggiata lenta",
-        "lat": "lentus"
+        "lat": "lentus",
+        "fr_adj_m": "lent",
+        "fr_adj_f": "lente",
+        "es_adj_m": "lento",
+        "es_adj_f": "lenta",
+        "it_adj_m": "lento",
+        "it_adj_f": "lenta",
+        "en_m": "a slow bus",
+        "en_f": "a slow walk"
     },
     {
         "type": "adj",
@@ -1057,7 +1145,15 @@
         "es_f": "una tienda abierta",
         "it_m": "un negozio aperto",
         "it_f": "una porta aperta",
-        "lat": "apertus"
+        "lat": "apertus",
+        "fr_adj_m": "ouvert",
+        "fr_adj_f": "ouverte",
+        "es_adj_m": "abierto",
+        "es_adj_f": "abierta",
+        "it_adj_m": "aperto",
+        "it_adj_f": "aperta",
+        "en_m": "an open shop",
+        "en_f": "an open door"
     },
     {
         "type": "adj",
@@ -1068,7 +1164,15 @@
         "es_f": "una farmacia cerrada",
         "it_m": "un museo chiuso",
         "it_f": "una farmacia chiusa",
-        "lat": "clausus"
+        "lat": "clausus",
+        "fr_adj_m": "fermé",
+        "fr_adj_f": "fermée",
+        "es_adj_m": "cerrado",
+        "es_adj_f": "cerrada",
+        "it_adj_m": "chiuso",
+        "it_adj_f": "chiusa",
+        "en_m": "a closed museum",
+        "en_f": "a closed pharmacy"
     },
     {
         "type": "adj",
@@ -1079,7 +1183,15 @@
         "es_f": "una habitación limpia",
         "it_m": "un albergo pulito",
         "it_f": "una camera pulita",
-        "lat": "mundus"
+        "lat": "mundus",
+        "fr_adj_m": "propre",
+        "fr_adj_f": "propre",
+        "es_adj_m": "limpio",
+        "es_adj_f": "limpia",
+        "it_adj_m": "pulito",
+        "it_adj_f": "pulita",
+        "en_m": "a clean hotel",
+        "en_f": "a clean room"
     },
     {
         "type": "adj",
@@ -1090,7 +1202,15 @@
         "es_f": "una calle sucia",
         "it_m": "un bicchiere sporco",
         "it_f": "una strada sporca",
-        "lat": "sordidus"
+        "lat": "sordidus",
+        "fr_adj_m": "sale",
+        "fr_adj_f": "sale",
+        "es_adj_m": "sucio",
+        "es_adj_f": "sucia",
+        "it_adj_m": "sporco",
+        "it_adj_f": "sporca",
+        "en_m": "a dirty glass",
+        "en_f": "a dirty street"
     },
     {
         "type": "adj",
@@ -1101,7 +1221,15 @@
         "es_f": "una tienda cara",
         "it_m": "un ristorante costoso",
         "it_f": "una borsa costosa",
-        "lat": "pretiosus"
+        "lat": "pretiosus",
+        "fr_adj_m": "cher",
+        "fr_adj_f": "chère",
+        "es_adj_m": "caro",
+        "es_adj_f": "cara",
+        "it_adj_m": "costoso",
+        "it_adj_f": "costosa",
+        "en_m": "an expensive restaurant",
+        "en_f": "an expensive shop"
     },
     {
         "type": "adj",
@@ -1112,7 +1240,15 @@
         "es_f": "una habitación barata",
         "it_m": "un biglietto economico",
         "it_f": "una camera economica",
-        "lat": "vilis"
+        "lat": "vilis",
+        "fr_adj_m": "bon marché",
+        "fr_adj_f": "bon marché",
+        "es_adj_m": "barato",
+        "es_adj_f": "barata",
+        "it_adj_m": "economico",
+        "it_adj_f": "economica",
+        "en_m": "a cheap ticket",
+        "en_f": "a cheap room"
     },
     {
         "type": "adj",
@@ -1123,7 +1259,15 @@
         "es_f": "una sala llena",
         "it_m": "un autobus pieno",
         "it_f": "una sala piena",
-        "lat": "plenus"
+        "lat": "plenus",
+        "fr_adj_m": "plein",
+        "fr_adj_f": "pleine",
+        "es_adj_m": "lleno",
+        "es_adj_f": "llena",
+        "it_adj_m": "pieno",
+        "it_adj_f": "piena",
+        "en_m": "a full bus",
+        "en_f": "a full room"
     },
     {
         "type": "adj",
@@ -1134,7 +1278,15 @@
         "es_f": "una plaza vacía",
         "it_m": "un bicchiere vuoto",
         "it_f": "una piazza vuota",
-        "lat": "vacuus"
+        "lat": "vacuus",
+        "fr_adj_m": "vide",
+        "fr_adj_f": "vide",
+        "es_adj_m": "vacío",
+        "es_adj_f": "vacía",
+        "it_adj_m": "vuoto",
+        "it_adj_f": "vuota",
+        "en_m": "an empty glass",
+        "en_f": "an empty street"
     },
     {
         "type": "adj",
@@ -1145,7 +1297,15 @@
         "es_f": "una maleta pesada",
         "it_m": "un bagaglio pesante",
         "it_f": "una valigia pesante",
-        "lat": "gravis"
+        "lat": "gravis",
+        "fr_adj_m": "lourd",
+        "fr_adj_f": "lourde",
+        "es_adj_m": "pesado",
+        "es_adj_f": "pesada",
+        "it_adj_m": "pesante",
+        "it_adj_f": "pesante",
+        "en_m": "heavy luggage",
+        "en_f": "a heavy suitcase"
     },
     {
         "type": "adj",
@@ -1156,7 +1316,15 @@
         "es_f": "una carretera larga",
         "it_m": "un viaggio lungo",
         "it_f": "una strada lunga",
-        "lat": "longus"
+        "lat": "longus",
+        "fr_adj_m": "long",
+        "fr_adj_f": "longue",
+        "es_adj_m": "largo",
+        "es_adj_f": "larga",
+        "it_adj_m": "lungo",
+        "it_adj_f": "lunga",
+        "en_m": "a long journey",
+        "en_f": "a long road"
     },
     {
         "type": "adj",
@@ -1167,7 +1335,15 @@
         "es_f": "una visita corta",
         "it_m": "un tragitto corto",
         "it_f": "una visita corta",
-        "lat": "brevis"
+        "lat": "brevis",
+        "fr_adj_m": "court",
+        "fr_adj_f": "courte",
+        "es_adj_m": "corto",
+        "es_adj_f": "corta",
+        "it_adj_m": "corto",
+        "it_adj_f": "corta",
+        "en_m": "a short trip",
+        "en_f": "a short visit"
     },
     {
         "type": "adj",
@@ -1178,7 +1354,15 @@
         "es_f": "una avenida ancha",
         "it_m": "un viale largo",
         "it_f": "una strada larga",
-        "lat": "latus"
+        "lat": "latus",
+        "fr_adj_m": "large",
+        "fr_adj_f": "large",
+        "es_adj_m": "ancho",
+        "es_adj_f": "ancha",
+        "it_adj_m": "largo",
+        "it_adj_f": "larga",
+        "en_m": "a wide boulevard",
+        "en_f": "a wide avenue"
     },
     {
         "type": "adj",
@@ -1189,7 +1373,15 @@
         "es_f": "una calle estrecha",
         "it_m": "un passaggio stretto",
         "it_f": "una via stretta",
-        "lat": "angustus"
+        "lat": "angustus",
+        "fr_adj_m": "étroit",
+        "fr_adj_f": "étroite",
+        "es_adj_m": "estrecho",
+        "es_adj_f": "estrecha",
+        "it_adj_m": "stretto",
+        "it_adj_f": "stretta",
+        "en_m": "a narrow passage",
+        "en_f": "a narrow alley"
     },
     {
         "type": "adj",
@@ -1200,7 +1392,15 @@
         "es_f": "una estación cercana",
         "it_m": "un parco vicino",
         "it_f": "una stazione vicina",
-        "lat": "propinquus"
+        "lat": "propinquus",
+        "fr_adj_m": "proche",
+        "fr_adj_f": "proche",
+        "es_adj_m": "cercano",
+        "es_adj_f": "cercana",
+        "it_adj_m": "vicino",
+        "it_adj_f": "vicina",
+        "en_m": "a near park",
+        "en_f": "a near station"
     },
     {
         "type": "adj",
@@ -1211,7 +1411,15 @@
         "es_f": "una playa lejana",
         "it_m": "un villaggio lontano",
         "it_f": "una spiaggia lontana",
-        "lat": "longinquus"
+        "lat": "longinquus",
+        "fr_adj_m": "lointain",
+        "fr_adj_f": "lointaine",
+        "es_adj_m": "lejano",
+        "es_adj_f": "lejana",
+        "it_adj_m": "lontano",
+        "it_adj_f": "lontana",
+        "en_m": "a far village",
+        "en_f": "a far beach"
     },
     {
         "type": "adj",
@@ -1222,7 +1430,15 @@
         "es_f": "una ciudad segura",
         "it_m": "un quartiere sicuro",
         "it_f": "una città sicura",
-        "lat": "tutus"
+        "lat": "tutus",
+        "fr_adj_m": "sûr",
+        "fr_adj_f": "sûre",
+        "es_adj_m": "seguro",
+        "es_adj_f": "segura",
+        "it_adj_m": "sicuro",
+        "it_adj_f": "sicura",
+        "en_m": "a safe neighbourhood",
+        "en_f": "a safe city"
     },
     {
         "type": "adj",
@@ -1233,7 +1449,15 @@
         "es_f": "una zona peligrosa",
         "it_m": "un sentiero pericoloso",
         "it_f": "una zona pericolosa",
-        "lat": "periculosus"
+        "lat": "periculosus",
+        "fr_adj_m": "dangereux",
+        "fr_adj_f": "dangereuse",
+        "es_adj_m": "peligroso",
+        "es_adj_f": "peligrosa",
+        "it_adj_m": "pericoloso",
+        "it_adj_f": "pericolosa",
+        "en_m": "a dangerous path",
+        "en_f": "a dangerous road"
     },
     {
         "type": "adj",
@@ -1244,7 +1468,15 @@
         "es_f": "una playa tranquila",
         "it_m": "un albergo tranquillo",
         "it_f": "una spiaggia tranquilla",
-        "lat": "quietus"
+        "lat": "quietus",
+        "fr_adj_m": "calme",
+        "fr_adj_f": "calme",
+        "es_adj_m": "tranquilo",
+        "es_adj_f": "tranquila",
+        "it_adj_m": "tranquillo",
+        "it_adj_f": "tranquilla",
+        "en_m": "a quiet hotel",
+        "en_f": "a quiet beach"
     },
     {
         "type": "adj",
@@ -1255,7 +1487,15 @@
         "es_f": "una crema dulce",
         "it_m": "un dolce zuccherato",
         "it_f": "una crema dolce",
-        "lat": "dulcis"
+        "lat": "dulcis",
+        "fr_adj_m": "sucré",
+        "fr_adj_f": "sucrée",
+        "es_adj_m": "dulce",
+        "es_adj_f": "dulce",
+        "it_adj_m": "zuccherato",
+        "it_adj_f": "dolce",
+        "en_m": "a sweet cake",
+        "en_f": "a sweet cream"
     },
     {
         "type": "adj",
@@ -1266,7 +1506,15 @@
         "es_f": "una manzana ácida",
         "it_m": "un limone acido",
         "it_f": "una mela acida",
-        "lat": "acidus"
+        "lat": "acidus",
+        "fr_adj_m": "aigre",
+        "fr_adj_f": "aigre",
+        "es_adj_m": "ácido",
+        "es_adj_f": "ácida",
+        "it_adj_m": "acido",
+        "it_adj_f": "acida",
+        "en_m": "a sour lemon",
+        "en_f": "a sour apple"
     },
     {
         "type": "adj",
@@ -1277,7 +1525,15 @@
         "es_f": "una cerveza amarga",
         "it_m": "un caffè amaro",
         "it_f": "una birra amara",
-        "lat": "amarus"
+        "lat": "amarus",
+        "fr_adj_m": "amer",
+        "fr_adj_f": "amère",
+        "es_adj_m": "amargo",
+        "es_adj_f": "amarga",
+        "it_adj_m": "amaro",
+        "it_adj_f": "amara",
+        "en_m": "a bitter coffee",
+        "en_f": "a bitter beer"
     },
     {
         "type": "adj",
@@ -1288,7 +1544,15 @@
         "es_f": "una sopa salada",
         "it_m": "un piatto salato",
         "it_f": "una zuppa salata",
-        "lat": "salsus"
+        "lat": "salsus",
+        "fr_adj_m": "salé",
+        "fr_adj_f": "salée",
+        "es_adj_m": "salado",
+        "es_adj_f": "salada",
+        "it_adj_m": "salato",
+        "it_adj_f": "salata",
+        "en_m": "a salty dish",
+        "en_f": "a salty soup"
     },
     {
         "type": "adj",
@@ -1299,7 +1563,15 @@
         "es_f": "una salsa picante",
         "it_m": "un piatto piccante",
         "it_f": "una salsa piccante",
-        "lat": "acer"
+        "lat": "acer",
+        "fr_adj_m": "épicé",
+        "fr_adj_f": "épicée",
+        "es_adj_m": "picante",
+        "es_adj_f": "picante",
+        "it_adj_m": "piccante",
+        "it_adj_f": "piccante",
+        "en_m": "a spicy dish",
+        "en_f": "a spicy sauce"
     },
     {
         "type": "adj",
@@ -1310,7 +1582,15 @@
         "es_f": "una ensalada fresca",
         "it_m": "un pane fresco",
         "it_f": "un'insalata fresca",
-        "lat": "recens"
+        "lat": "recens",
+        "fr_adj_m": "frais",
+        "fr_adj_f": "fraîche",
+        "es_adj_m": "fresco",
+        "es_adj_f": "fresca",
+        "it_adj_m": "fresco",
+        "it_adj_f": "fresca",
+        "en_m": "fresh bread",
+        "en_f": "a fresh salad"
     },
     {
         "type": "adj",
@@ -1321,7 +1601,15 @@
         "es_f": "una tarta deliciosa",
         "it_m": "un pasto delizioso",
         "it_f": "una torta deliziosa",
-        "lat": "suavis"
+        "lat": "suavis",
+        "fr_adj_m": "délicieux",
+        "fr_adj_f": "délicieuse",
+        "es_adj_m": "delicioso",
+        "es_adj_f": "deliciosa",
+        "it_adj_m": "delizioso",
+        "it_adj_f": "deliziosa",
+        "en_m": "a delicious meal",
+        "en_f": "a delicious tart"
     },
     {
         "type": "adj",
@@ -1332,7 +1620,15 @@
         "es_f": "una mesa libre",
         "it_m": "un posto libero",
         "it_f": "una sedia libera",
-        "lat": "liber"
+        "lat": "liber",
+        "fr_adj_m": "libre",
+        "fr_adj_f": "libre",
+        "es_adj_m": "libre",
+        "es_adj_f": "libre",
+        "it_adj_m": "libero",
+        "it_adj_f": "libera",
+        "en_m": "a free seat",
+        "en_f": "a free table"
     },
     {
         "type": "adj",
@@ -1343,7 +1639,15 @@
         "es_f": "una habitación lista",
         "it_m": "un piatto pronto",
         "it_f": "una camera pronta",
-        "lat": "paratus"
+        "lat": "paratus",
+        "fr_adj_m": "prêt",
+        "fr_adj_f": "prête",
+        "es_adj_m": "listo",
+        "es_adj_f": "lista",
+        "it_adj_m": "pronto",
+        "it_adj_f": "pronta",
+        "en_m": "a ready meal",
+        "en_f": "a ready room"
     },
     {
         "type": "adj",
@@ -1354,7 +1658,15 @@
         "es_f": "una llegada tardía",
         "it_m": "un treno in ritardo",
         "it_f": "un'arrivo tardivo",
-        "lat": "serus"
+        "lat": "serus",
+        "fr_adj_m": "en retard",
+        "fr_adj_f": "tardive",
+        "es_adj_m": "retrasado",
+        "es_adj_f": "tardía",
+        "it_adj_m": "in ritardo",
+        "it_adj_f": "tardivo",
+        "en_m": "a late train",
+        "en_f": "a late arrival"
     },
     {
         "type": "adj",
@@ -1365,7 +1677,15 @@
         "es_f": "una hora temprana",
         "it_m": "un volo mattutino",
         "it_f": "un'ora mattutina",
-        "lat": "maturus"
+        "lat": "maturus",
+        "fr_adj_m": "matinal",
+        "fr_adj_f": "matinale",
+        "es_adj_m": "temprano",
+        "es_adj_f": "temprana",
+        "it_adj_m": "mattutino",
+        "it_adj_f": "mattutina",
+        "en_m": "an early flight",
+        "en_f": "an early hour"
     },
     {
         "type": "adj",
@@ -1376,7 +1696,15 @@
         "es_f": "una opción posible",
         "it_m": "un cambio possibile",
         "it_f": "un'opzione possibile",
-        "lat": "possibilis"
+        "lat": "possibilis",
+        "fr_adj_m": "possible",
+        "fr_adj_f": "possible",
+        "es_adj_m": "posible",
+        "es_adj_f": "posible",
+        "it_adj_m": "possibile",
+        "it_adj_f": "possibile",
+        "en_m": "a possible choice",
+        "en_f": "a possible option"
     },
     {
         "type": "adj",
@@ -1387,7 +1715,15 @@
         "es_f": "una reserva necesaria",
         "it_m": "un documento necessario",
         "it_f": "una prenotazione necessaria",
-        "lat": "necessarius"
+        "lat": "necessarius",
+        "fr_adj_m": "nécessaire",
+        "fr_adj_f": "nécessaire",
+        "es_adj_m": "necesario",
+        "es_adj_f": "necesaria",
+        "it_adj_m": "necessario",
+        "it_adj_f": "necessaria",
+        "en_m": "a necessary document",
+        "en_f": "a necessary booking"
     },
     {
         "type": "adj",
@@ -1398,7 +1734,15 @@
         "es_f": "una fecha importante",
         "it_m": "un monumento importante",
         "it_f": "una data importante",
-        "lat": "gravis"
+        "lat": "gravis",
+        "fr_adj_m": "important",
+        "fr_adj_f": "importante",
+        "es_adj_m": "importante",
+        "es_adj_f": "importante",
+        "it_adj_m": "importante",
+        "it_adj_f": "importante",
+        "en_m": "an important monument",
+        "en_f": "an important date"
     },
     {
         "type": "adj",
@@ -1409,7 +1753,15 @@
         "es_f": "la rosa roja",
         "it_m": "il vino rosso",
         "it_f": "la rosa rossa",
-        "lat": "ruber"
+        "lat": "ruber",
+        "fr_adj_m": "rouge",
+        "fr_adj_f": "rouge",
+        "es_adj_m": "tinto",
+        "es_adj_f": "roja",
+        "it_adj_m": "rosso",
+        "it_adj_f": "rossa",
+        "en_m": "red wine",
+        "en_f": "a red rose"
     },
     {
         "type": "adj",
@@ -1420,7 +1772,15 @@
         "es_f": "la casa azul",
         "it_m": "il cielo blu",
         "it_f": "la casa blu",
-        "lat": "caeruleus"
+        "lat": "caeruleus",
+        "fr_adj_m": "bleu",
+        "fr_adj_f": "bleue",
+        "es_adj_m": "azul",
+        "es_adj_f": "azul",
+        "it_adj_m": "blu",
+        "it_adj_f": "blu",
+        "en_m": "a blue sky",
+        "en_f": "a blue sea"
     },
     {
         "type": "adj",
@@ -1431,7 +1791,15 @@
         "es_f": "la hierba verde",
         "it_m": "il parco verde",
         "it_f": "la foresta verde",
-        "lat": "viridis"
+        "lat": "viridis",
+        "fr_adj_m": "vert",
+        "fr_adj_f": "verte",
+        "es_adj_m": "verde",
+        "es_adj_f": "verde",
+        "it_adj_m": "verde",
+        "it_adj_f": "verde",
+        "en_m": "a green park",
+        "en_f": "a green forest"
     },
     {
         "type": "adj",
@@ -1442,7 +1810,15 @@
         "es_f": "la flor amarilla",
         "it_m": "il sole giallo",
         "it_f": "la stella gialla",
-        "lat": "flavus"
+        "lat": "flavus",
+        "fr_adj_m": "jaune",
+        "fr_adj_f": "jaune",
+        "es_adj_m": "amarillo",
+        "es_adj_f": "amarilla",
+        "it_adj_m": "giallo",
+        "it_adj_f": "gialla",
+        "en_m": "a yellow sun",
+        "en_f": "a yellow flower"
     },
     {
         "type": "adj",
@@ -1453,7 +1829,15 @@
         "es_f": "la nieve blanca",
         "it_m": "il muro bianco",
         "it_f": "la neve bianca",
-        "lat": "albus"
+        "lat": "albus",
+        "fr_adj_m": "blanc",
+        "fr_adj_f": "blanche",
+        "es_adj_m": "blanco",
+        "es_adj_f": "blanca",
+        "it_adj_m": "bianco",
+        "it_adj_f": "bianca",
+        "en_m": "a white wall",
+        "en_f": "white snow"
     },
     {
         "type": "adj",
@@ -1464,7 +1848,15 @@
         "es_f": "la noche negra",
         "it_m": "il gatto nero",
         "it_f": "la notte nera",
-        "lat": "niger"
+        "lat": "niger",
+        "fr_adj_m": "noir",
+        "fr_adj_f": "noire",
+        "es_adj_m": "negro",
+        "es_adj_f": "negra",
+        "it_adj_m": "nero",
+        "it_adj_f": "nera",
+        "en_m": "a black cat",
+        "en_f": "a black night"
     },
     {
         "type": "adj",
@@ -1475,7 +1867,15 @@
         "es_f": "una mujer feliz",
         "it_m": "un uomo felice",
         "it_f": "una donna felice",
-        "lat": "felix"
+        "lat": "felix",
+        "fr_adj_m": "heureux",
+        "fr_adj_f": "heureuse",
+        "es_adj_m": "feliz",
+        "es_adj_f": "feliz",
+        "it_adj_m": "felice",
+        "it_adj_f": "felice",
+        "en_m": "a happy man",
+        "en_f": "a happy woman"
     },
     {
         "type": "adj",
@@ -1486,7 +1886,15 @@
         "es_f": "una chica triste",
         "it_m": "un ragazzo triste",
         "it_f": "una ragazza triste",
-        "lat": "tristis"
+        "lat": "tristis",
+        "fr_adj_m": "triste",
+        "fr_adj_f": "triste",
+        "es_adj_m": "triste",
+        "es_adj_f": "triste",
+        "it_adj_m": "triste",
+        "it_adj_f": "triste",
+        "en_m": "a sad boy",
+        "en_f": "a sad girl"
     },
     {
         "type": "adj",
@@ -1497,7 +1905,15 @@
         "es_f": "una viajera cansada",
         "it_m": "un viaggiatore stanco",
         "it_f": "una viaggiatrice stanca",
-        "lat": "fessus"
+        "lat": "fessus",
+        "fr_adj_m": "fatigué",
+        "fr_adj_f": "fatiguée",
+        "es_adj_m": "cansado",
+        "es_adj_f": "cansada",
+        "it_adj_m": "stanco",
+        "it_adj_f": "stanca",
+        "en_m": "a tired traveller",
+        "en_f": "a tired traveller"
     },
     {
         "type": "adj",
@@ -1508,7 +1924,15 @@
         "es_f": "una mujer hambrienta",
         "it_m": "un uomo affamato",
         "it_f": "una donna affamata",
-        "lat": "famelicus"
+        "lat": "famelicus",
+        "fr_adj_m": "affamé",
+        "fr_adj_f": "affamée",
+        "es_adj_m": "hambriento",
+        "es_adj_f": "hambrienta",
+        "it_adj_m": "affamato",
+        "it_adj_f": "affamata",
+        "en_m": "a hungry man",
+        "en_f": "a hungry woman"
     },
     {
         "type": "adj",
@@ -1519,7 +1943,15 @@
         "es_f": "una pasajera enferma",
         "it_m": "un passeggero malato",
         "it_f": "una passeggera malata",
-        "lat": "aeger"
+        "lat": "aeger",
+        "fr_adj_m": "malade",
+        "fr_adj_f": "malade",
+        "es_adj_m": "enfermo",
+        "es_adj_f": "enferma",
+        "it_adj_m": "malato",
+        "it_adj_f": "malata",
+        "en_m": "a sick passenger",
+        "en_f": "a sick passenger"
     },
     {
         "type": "adj",
@@ -1530,7 +1962,15 @@
         "es_f": "una cama cómoda",
         "it_m": "un letto comodo",
         "it_f": "una sedia comoda",
-        "lat": "commodus"
+        "lat": "commodus",
+        "fr_adj_m": "confortable",
+        "fr_adj_f": "confortable",
+        "es_adj_m": "cómodo",
+        "es_adj_f": "cómoda",
+        "it_adj_m": "comodo",
+        "it_adj_f": "comoda",
+        "en_m": "a comfortable bed",
+        "en_f": "a comfortable room"
     },
     {
         "type": "adj",
@@ -1541,7 +1981,15 @@
         "es_f": "una lengua difícil",
         "it_m": "un sentiero difficile",
         "it_f": "una lingua difficile",
-        "lat": "difficilis"
+        "lat": "difficilis",
+        "fr_adj_m": "difficile",
+        "fr_adj_f": "difficile",
+        "es_adj_m": "difícil",
+        "es_adj_f": "difícil",
+        "it_adj_m": "difficile",
+        "it_adj_f": "difficile",
+        "en_m": "a difficult path",
+        "en_f": "a difficult language"
     },
     {
         "type": "adj",
@@ -1552,7 +2000,15 @@
         "es_f": "una receta fácil",
         "it_m": "un tragitto facile",
         "it_f": "una ricetta facile",
-        "lat": "facilis"
+        "lat": "facilis",
+        "fr_adj_m": "facile",
+        "fr_adj_f": "facile",
+        "es_adj_m": "fácil",
+        "es_adj_f": "fácil",
+        "it_adj_m": "facile",
+        "it_adj_f": "facile",
+        "en_m": "an easy trip",
+        "en_f": "an easy recipe"
     },
     {
         "type": "adj",
@@ -1563,7 +2019,15 @@
         "es_f": "una cerveza fuerte",
         "it_m": "un caffè forte",
         "it_f": "una birra forte",
-        "lat": "fortis"
+        "lat": "fortis",
+        "fr_adj_m": "fort",
+        "fr_adj_f": "forte",
+        "es_adj_m": "fuerte",
+        "es_adj_f": "fuerte",
+        "it_adj_m": "forte",
+        "it_adj_f": "forte",
+        "en_m": "a strong coffee",
+        "en_f": "a strong beer"
     },
     {
         "type": "adj",
@@ -1574,7 +2038,15 @@
         "es_f": "una piscina profunda",
         "it_m": "un lago profondo",
         "it_f": "una piscina profonda",
-        "lat": "profundus"
+        "lat": "profundus",
+        "fr_adj_m": "profond",
+        "fr_adj_f": "profonde",
+        "es_adj_m": "profundo",
+        "es_adj_f": "profunda",
+        "it_adj_m": "profondo",
+        "it_adj_f": "profonda",
+        "en_m": "a deep lake",
+        "en_f": "a deep pool"
     },
     {
         "type": "adj",
@@ -1585,7 +2057,15 @@
         "es_f": "una almohada suave",
         "it_m": "un cuscino morbido",
         "it_f": "una coperta morbida",
-        "lat": "mollis"
+        "lat": "mollis",
+        "fr_adj_m": "doux",
+        "fr_adj_f": "douce",
+        "es_adj_m": "suave",
+        "es_adj_f": "suave",
+        "it_adj_m": "morbido",
+        "it_adj_f": "morbida",
+        "en_m": "a soft pillow",
+        "en_f": "a soft blanket"
     },
     {
         "type": "adj",
@@ -1596,7 +2076,15 @@
         "es_f": "una silla dura",
         "it_m": "un letto duro",
         "it_f": "una sedia dura",
-        "lat": "durus"
+        "lat": "durus",
+        "fr_adj_m": "dur",
+        "fr_adj_f": "dure",
+        "es_adj_m": "duro",
+        "es_adj_f": "dura",
+        "it_adj_m": "duro",
+        "it_adj_f": "dura",
+        "en_m": "a hard bed",
+        "en_f": "a hard chair"
     },
     {
         "type": "adj",
@@ -1607,7 +2095,15 @@
         "es_f": "una tarde cálida",
         "it_m": "un giorno caldo",
         "it_f": "una serata calda",
-        "lat": "tepidus"
+        "lat": "tepidus",
+        "fr_adj_m": "chaleureux",
+        "fr_adj_f": "chaude",
+        "es_adj_m": "cálido",
+        "es_adj_f": "cálida",
+        "it_adj_m": "caldo",
+        "it_adj_f": "calda",
+        "en_m": "a warm welcome",
+        "en_f": "a warm day"
     },
     {
         "type": "adj",
@@ -1618,7 +2114,15 @@
         "es_f": "una brisa fresca",
         "it_m": "un vento fresco",
         "it_f": "una brezza fresca",
-        "lat": "frigidulus"
+        "lat": "frigidulus",
+        "fr_adj_m": "frais",
+        "fr_adj_f": "fraîche",
+        "es_adj_m": "fresco",
+        "es_adj_f": "fresca",
+        "it_adj_m": "fresco",
+        "it_adj_f": "fresca",
+        "en_m": "a cool evening",
+        "en_f": "a cool breeze"
     },
     {
         "type": "adj",
@@ -1629,7 +2133,15 @@
         "es_f": "una cerveza local",
         "it_m": "un mercato locale",
         "it_f": "una birra locale",
-        "lat": "localis"
+        "lat": "localis",
+        "fr_adj_m": "local",
+        "fr_adj_f": "locale",
+        "es_adj_m": "local",
+        "es_adj_f": "local",
+        "it_adj_m": "locale",
+        "it_adj_f": "locale",
+        "en_m": "a local market",
+        "en_f": "a local beer"
     },
     {
         "type": "adj",
@@ -1640,7 +2152,15 @@
         "es_f": "una casa típica",
         "it_m": "un piatto tipico",
         "it_f": "una casa tipica",
-        "lat": "typicus"
+        "lat": "typicus",
+        "fr_adj_m": "typique",
+        "fr_adj_f": "typique",
+        "es_adj_m": "típico",
+        "es_adj_f": "típica",
+        "it_adj_m": "tipico",
+        "it_adj_f": "tipica",
+        "en_m": "a typical dish",
+        "en_f": "a typical house"
     },
     {
         "type": "adj",
@@ -1651,7 +2171,15 @@
         "es_f": "una fiesta tradicional",
         "it_m": "un costume tradizionale",
         "it_f": "una festa tradizionale",
-        "lat": "traditus"
+        "lat": "traditus",
+        "fr_adj_m": "traditionnel",
+        "fr_adj_f": "traditionnelle",
+        "es_adj_m": "tradicional",
+        "es_adj_f": "tradicional",
+        "it_adj_m": "tradizionale",
+        "it_adj_f": "tradizionale",
+        "en_m": "a traditional costume",
+        "en_f": "a traditional festival"
     },
     {
         "type": "adj",
@@ -1662,7 +2190,15 @@
         "es_f": "una plaza famosa",
         "it_m": "un monumento famoso",
         "it_f": "una piazza famosa",
-        "lat": "celeber"
+        "lat": "celeber",
+        "fr_adj_m": "célèbre",
+        "fr_adj_f": "célèbre",
+        "es_adj_m": "famoso",
+        "es_adj_f": "famosa",
+        "it_adj_m": "famoso",
+        "it_adj_f": "famosa",
+        "en_m": "a famous monument",
+        "en_f": "a famous square"
     },
     {
         "type": "adj",
@@ -1673,7 +2209,15 @@
         "es_f": "una ruina antigua",
         "it_m": "un tempio antico",
         "it_f": "una rovina antica",
-        "lat": "antiquus"
+        "lat": "antiquus",
+        "fr_adj_m": "ancien",
+        "fr_adj_f": "ancienne",
+        "es_adj_m": "antiguo",
+        "es_adj_f": "antigua",
+        "it_adj_m": "antico",
+        "it_adj_f": "antica",
+        "en_m": "an ancient temple",
+        "en_f": "an ancient ruin"
     },
     {
         "type": "adj",
@@ -1684,7 +2228,15 @@
         "es_f": "una ciudad moderna",
         "it_m": "un edificio moderno",
         "it_f": "una città moderna",
-        "lat": "modernus"
+        "lat": "modernus",
+        "fr_adj_m": "moderne",
+        "fr_adj_f": "moderne",
+        "es_adj_m": "moderno",
+        "es_adj_f": "moderna",
+        "it_adj_m": "moderno",
+        "it_adj_f": "moderna",
+        "en_m": "a modern building",
+        "en_f": "a modern city"
     },
     {
         "type": "adj",
@@ -1695,7 +2247,15 @@
         "es_f": "una luz brillante",
         "it_m": "un sole brillante",
         "it_f": "una luce brillante",
-        "lat": "clarus"
+        "lat": "clarus",
+        "fr_adj_m": "brillant",
+        "fr_adj_f": "brillante",
+        "es_adj_m": "brillante",
+        "es_adj_f": "brillante",
+        "it_adj_m": "brillante",
+        "it_adj_f": "brillante",
+        "en_m": "a bright sun",
+        "en_f": "a bright light"
     },
     {
         "type": "adj",
@@ -1706,7 +2266,15 @@
         "es_f": "una noche oscura",
         "it_m": "un cielo scuro",
         "it_f": "una notte scura",
-        "lat": "obscurus"
+        "lat": "obscurus",
+        "fr_adj_m": "sombre",
+        "fr_adj_f": "sombre",
+        "es_adj_m": "oscuro",
+        "es_adj_f": "oscura",
+        "it_adj_m": "scuro",
+        "it_adj_f": "scura",
+        "en_m": "a dark sky",
+        "en_f": "a dark night"
     },
     {
         "type": "adj",
@@ -1717,7 +2285,15 @@
         "es_f": "una temporada seca",
         "it_m": "un clima secco",
         "it_f": "una stagione secca",
-        "lat": "siccus"
+        "lat": "siccus",
+        "fr_adj_m": "sec",
+        "fr_adj_f": "sèche",
+        "es_adj_m": "seco",
+        "es_adj_f": "seca",
+        "it_adj_m": "secco",
+        "it_adj_f": "secca",
+        "en_m": "a dry climate",
+        "en_f": "a dry season"
     },
     {
         "type": "adj",
@@ -1728,7 +2304,15 @@
         "es_f": "una mujer joven",
         "it_m": "un uomo giovane",
         "it_f": "una donna giovane",
-        "lat": "iuvenis"
+        "lat": "iuvenis",
+        "fr_adj_m": "jeune",
+        "fr_adj_f": "jeune",
+        "es_adj_m": "joven",
+        "es_adj_f": "joven",
+        "it_adj_m": "giovane",
+        "it_adj_f": "giovane",
+        "en_m": "a young man",
+        "en_f": "a young woman"
     },
     {
         "type": "adj",
@@ -1739,7 +2323,15 @@
         "es_f": "una plaza redonda",
         "it_m": "un pane rotondo",
         "it_f": "una piazza rotonda",
-        "lat": "rotundus"
+        "lat": "rotundus",
+        "fr_adj_m": "rond",
+        "fr_adj_f": "ronde",
+        "es_adj_m": "redondo",
+        "es_adj_f": "redonda",
+        "it_adj_m": "rotondo",
+        "it_adj_f": "rotonda",
+        "en_m": "a round loaf",
+        "en_f": "a round square"
     },
     {
         "type": "adj",
@@ -1750,7 +2342,15 @@
         "es_f": "una carretera plana",
         "it_m": "un terreno piatto",
         "it_f": "una strada piatta",
-        "lat": "planus"
+        "lat": "planus",
+        "fr_adj_m": "plat",
+        "fr_adj_f": "plate",
+        "es_adj_m": "plano",
+        "es_adj_f": "plana",
+        "it_adj_m": "piatto",
+        "it_adj_f": "piatta",
+        "en_m": "a flat terrain",
+        "en_f": "a flat road"
     },
     {
         "type": "adj",
@@ -1761,7 +2361,15 @@
         "es_f": "una línea recta",
         "it_m": "un sentiero dritto",
         "it_f": "una linea dritta",
-        "lat": "rectus"
+        "lat": "rectus",
+        "fr_adj_m": "droit",
+        "fr_adj_f": "droite",
+        "es_adj_m": "recto",
+        "es_adj_f": "recta",
+        "it_adj_m": "dritto",
+        "it_adj_f": "dritta",
+        "en_m": "a straight path",
+        "en_f": "a straight line"
     },
     {
         "type": "adj",
@@ -1772,7 +2380,15 @@
         "es_f": "una carretera helada",
         "it_m": "un lago ghiacciato",
         "it_f": "una strada ghiacciata",
-        "lat": "gelatus"
+        "lat": "gelatus",
+        "fr_adj_m": "gelé",
+        "fr_adj_f": "gelée",
+        "es_adj_m": "helado",
+        "es_adj_f": "helada",
+        "it_adj_m": "ghiacciato",
+        "it_adj_f": "ghiacciata",
+        "en_m": "a frozen lake",
+        "en_f": "a frozen road"
     },
     {
         "type": "adj",
@@ -1783,7 +2399,15 @@
         "es_f": "una calle ruidosa",
         "it_m": "un bar rumoroso",
         "it_f": "una strada rumorosa",
-        "lat": "strepitosus"
+        "lat": "strepitosus",
+        "fr_adj_m": "bruyant",
+        "fr_adj_f": "bruyante",
+        "es_adj_m": "ruidoso",
+        "es_adj_f": "ruidosa",
+        "it_adj_m": "rumoroso",
+        "it_adj_f": "rumorosa",
+        "en_m": "a noisy bar",
+        "en_f": "a noisy street"
     },
     {
         "type": "adj",
@@ -1794,7 +2418,15 @@
         "es_f": "una ciudad rica",
         "it_m": "un quartiere ricco",
         "it_f": "una città ricca",
-        "lat": "dives"
+        "lat": "dives",
+        "fr_adj_m": "riche",
+        "fr_adj_f": "riche",
+        "es_adj_m": "rico",
+        "es_adj_f": "rica",
+        "it_adj_m": "ricco",
+        "it_adj_f": "ricca",
+        "en_m": "a rich neighbourhood",
+        "en_f": "a rich city"
     },
     {
         "type": "adj",
@@ -1805,7 +2437,15 @@
         "es_f": "una región pobre",
         "it_m": "un quartiere povero",
         "it_f": "una regione povera",
-        "lat": "pauper"
+        "lat": "pauper",
+        "fr_adj_m": "pauvre",
+        "fr_adj_f": "pauvre",
+        "es_adj_m": "pobre",
+        "es_adj_f": "pobre",
+        "it_adj_m": "povero",
+        "it_adj_f": "povera",
+        "en_m": "a poor neighbourhood",
+        "en_f": "a poor region"
     },
     {
         "type": "noun",
