@@ -4,7 +4,10 @@ const App = (() => {
     deck: [],
     currentIndex: 0,
     seen: new Set(),
-    filter: "all"
+    filter: "all",
+
+    // Applies ONLY to adjectives (type === "adj")
+    adjGender: "both" // "both" | "m" | "f"
   };
 
   const dom = {};
@@ -14,10 +17,12 @@ const App = (() => {
       "card", "cardWrap", "typeBadge", "frontWord",
       "backEcho", "backContent",
       "cardNum", "totalCards", "seenCount", "progressFill",
-      "btnNext", "btnPrev", "btnShuffle"
+      "btnNext", "btnPrev", "btnShuffle",
+      "genderBar"
     ].forEach(id => dom[id] = document.getElementById(id));
 
     dom.filterButtons = document.querySelectorAll(".filter-btn");
+    dom.genderButtons = document.querySelectorAll(".gender-btn");
   }
 
   async function loadWords() {
@@ -55,8 +60,13 @@ const App = (() => {
     return arr;
   }
 
+  function currentWord() {
+    const idx = state.deck[state.currentIndex];
+    return state.words[idx];
+  }
+
   function render() {
-    const word = state.words[state.deck[state.currentIndex]];
+    const word = currentWord();
     if (!word) return;
 
     dom.card.classList.remove("flipped");
@@ -94,58 +104,96 @@ const App = (() => {
       verb: buildPhrase,
       phrase: buildPhrase
     };
-    return builders[word.type](word);
+    return (builders[word.type] || buildPhrase)(word);
   }
 
-  function buildNoun(w) {
-    return [
-      translationRow("French", "fr", `${w.fr_art} ${w.fr}`, "fr-FR"),
-      translationRow("Spanish", "es", `${w.es_art} ${w.es}`, "es-ES"),
-      translationRow("Italian", "it", `${w.it_art} ${w.it}`, "it-IT"),
-      translationRow("Latin", "lat", w.lat)
-    ].join("");
-  }
-
-  function buildAdjective(w) {
-    return [
-      translationRow("French", "fr", `${w.fr_m} / ${w.fr_f}`, "fr-FR"),
-      translationRow("Spanish", "es", `${w.es_m} / ${w.es_f}`, "es-ES"),
-      translationRow("Italian", "it", `${w.it_m} / ${w.it_f}`, "it-IT"),
-      translationRow("Root", "lat", w.lat)
-    ].join("");
-  }
-
-  function buildPhrase(w) {
-    return [
-      translationRow("French", "fr", w.fr, "fr-FR"),
-      translationRow("Spanish", "es", w.es, "es-ES"),
-      translationRow("Italian", "it", w.it, "it-IT"),
-      translationRow("Latin", "lat", w.lat)
-    ].join("");
-  }
-
-  function translationRow(label, cls, text, lang) {
-    const speakBtn = lang
-      ? `<button class="speak-btn" data-text="${text}" data-lang="${lang}">🔊</button>`
+  function translationRow(label, cls, html, speakText, speakLang) {
+    const speakBtn = speakLang
+      ? `<button class="speak-btn" data-text="${escapeAttr(speakText)}" data-lang="${escapeAttr(speakLang)}" title="Listen">🔊</button>`
       : "";
 
     return `
       <div class="translation-row">
         <div class="flag-label ${cls}">${label}</div>
-        <div class="translation-text">${text}</div>
+        <div class="translation-text">${html}</div>
         ${speakBtn}
       </div>
     `;
   }
 
+  function adjectiveRow(label, cls, mText, fText, speakLang) {
+    if (state.adjGender === "m") {
+      const html = `<div class="adj-pair"><div><span class="gl">M</span>${escapeHtml(mText)}</div></div>`;
+      return translationRow(label, cls, html, mText, speakLang);
+    }
+
+    if (state.adjGender === "f") {
+      const html = `<div class="adj-pair"><div><span class="gl">F</span>${escapeHtml(fText)}</div></div>`;
+      return translationRow(label, cls, html, fText, speakLang);
+    }
+
+    // both: show both + provide two speak buttons (M and F) so you can actually study separately
+    const html = `
+      <div class="adj-pair">
+        <div><span class="gl">M</span>${escapeHtml(mText)}</div>
+        <div><span class="gl">F</span>${escapeHtml(fText)}</div>
+      </div>
+    `;
+
+    const speakButtons = speakLang
+      ? `
+        <div class="adj-speak">
+          <button class="speak-btn" data-text="${escapeAttr(mText)}" data-lang="${escapeAttr(speakLang)}" title="Listen (M)">🔊</button>
+          <button class="speak-btn" data-text="${escapeAttr(fText)}" data-lang="${escapeAttr(speakLang)}" title="Listen (F)">🔊</button>
+        </div>
+      `
+      : "";
+
+    return `
+      <div class="translation-row">
+        <div class="flag-label ${cls}">${label}</div>
+        <div class="translation-text">${html}</div>
+        ${speakButtons}
+      </div>
+    `;
+  }
+
+  function buildNoun(w) {
+    return [
+      translationRow("French", "fr", `<span class="art">${escapeHtml(w.fr_art)}</span> ${escapeHtml(w.fr)}`, `${w.fr_art} ${w.fr}`, "fr-FR"),
+      translationRow("Spanish", "es", `<span class="art">${escapeHtml(w.es_art)}</span> ${escapeHtml(w.es)}`, `${w.es_art} ${w.es}`, "es-ES"),
+      translationRow("Italian", "it", `<span class="art">${escapeHtml(w.it_art)}</span> ${escapeHtml(w.it)}`, `${w.it_art} ${w.it}`, "it-IT"),
+      translationRow("Latin", "lat", escapeHtml(w.lat || ""), "", "")
+    ].join("");
+  }
+
+  function buildAdjective(w) {
+    return [
+      adjectiveRow("French", "fr", w.fr_m || "", w.fr_f || "", "fr-FR"),
+      adjectiveRow("Spanish", "es", w.es_m || "", w.es_f || "", "es-ES"),
+      adjectiveRow("Italian", "it", w.it_m || "", w.it_f || "", "it-IT"),
+      translationRow("Root", "lat", escapeHtml(w.lat || ""), "", "")
+    ].join("");
+  }
+
+  function buildPhrase(w) {
+    return [
+      translationRow("French", "fr", escapeHtml(w.fr || ""), w.fr || "", "fr-FR"),
+      translationRow("Spanish", "es", escapeHtml(w.es || ""), w.es || "", "es-ES"),
+      translationRow("Italian", "it", escapeHtml(w.it || ""), w.it || "", "it-IT"),
+      translationRow("Latin", "lat", escapeHtml(w.lat || ""), "", "")
+    ].join("");
+  }
+
   function speak(text, lang) {
     speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = 0.85;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    u.rate = 0.85;
 
-    speechSynthesis.speak(utterance);
+    // Voice selection is browser-dependent; keep it simple and reliable.
+    speechSynthesis.speak(u);
   }
 
   function bindEvents() {
@@ -153,9 +201,9 @@ const App = (() => {
       dom.card.classList.toggle("flipped")
     );
 
-    dom.btnNext.addEventListener("click", next);
-    dom.btnPrev.addEventListener("click", prev);
-    dom.btnShuffle.addEventListener("click", reshuffle);
+    dom.btnNext.addEventListener("click", e => { e.stopPropagation(); next(); });
+    dom.btnPrev.addEventListener("click", e => { e.stopPropagation(); prev(); });
+    dom.btnShuffle.addEventListener("click", e => { e.stopPropagation(); reshuffle(); });
 
     dom.filterButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -167,34 +215,89 @@ const App = (() => {
       });
     });
 
+    // Gender toggle (affects adjectives only)
+    dom.genderButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        dom.genderButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        state.adjGender = btn.dataset.gender;
+        // Only re-render; deck doesn't change.
+        render();
+      });
+    });
+
+    // Speak buttons (delegated)
     dom.backContent.addEventListener("click", e => {
       const btn = e.target.closest(".speak-btn");
       if (!btn) return;
 
       e.stopPropagation();
-      speak(btn.dataset.text, btn.dataset.lang);
+      const text = btn.dataset.text || "";
+      const lang = btn.dataset.lang || "";
+      if (text && lang) speak(text, lang);
     });
+
+    // Keyboard
+    document.addEventListener("keydown", e => {
+      if (e.key === " ") {
+        e.preventDefault();
+        dom.card.classList.toggle("flipped");
+        return;
+      }
+      if (e.key === "ArrowRight" || e.key === "Enter") next();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "s" || e.key === "S") reshuffle();
+    });
+
+    // Touch swipe
+    let tx = 0;
+    dom.cardWrap.addEventListener("touchstart", e => {
+      tx = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    dom.cardWrap.addEventListener("touchend", e => {
+      const d = e.changedTouches[0].screenX - tx;
+      if (Math.abs(d) > 60) (d < 0 ? next() : prev());
+    }, { passive: true });
   }
 
   function next() {
     if (!state.deck.length) return;
-    state.currentIndex =
-      (state.currentIndex + 1) % state.deck.length;
+    state.currentIndex = (state.currentIndex + 1) % state.deck.length;
     render();
   }
 
   function prev() {
     if (!state.deck.length) return;
-    state.currentIndex =
-      (state.currentIndex - 1 + state.deck.length) %
-      state.deck.length;
+    state.currentIndex = (state.currentIndex - 1 + state.deck.length) % state.deck.length;
     render();
   }
 
   function reshuffle() {
     state.deck = shuffle(state.deck);
     state.currentIndex = 0;
-    render();
+    if (state.deck.length) render();
+  }
+
+  // Minimal escaping to reduce injection risk (your original used innerHTML everywhere).
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function escapeAttr(s) {
+    // For attribute values used in data-*; escape quotes and ampersands.
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
   }
 
   function init() {

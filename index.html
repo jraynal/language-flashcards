@@ -22,12 +22,19 @@
   <div>Seen <span id="seenCount">0</span></div>
 </section>
 
-<nav class="filter-bar">
+<nav class="filter-bar" aria-label="Word type filter">
   <button class="filter-btn active" data-type="all">All</button>
   <button class="filter-btn" data-type="noun">Nouns</button>
   <button class="filter-btn" data-type="adj">Adjectives</button>
   <button class="filter-btn" data-type="verb">Verbs</button>
   <button class="filter-btn" data-type="phrase">Phrases</button>
+</nav>
+
+<nav class="gender-bar" id="genderBar" aria-label="Adjective gender display">
+  <span class="gender-label">Adjectives:</span>
+  <button class="gender-btn active" data-gender="both">M + F</button>
+  <button class="gender-btn" data-gender="m">M</button>
+  <button class="gender-btn" data-gender="f">F</button>
 </nav>
 
 <div class="progress-wrap">
@@ -40,9 +47,10 @@
   <div class="card" id="card">
     <div class="card-face card-front">
       <div class="type-badge" id="typeBadge"></div>
-      <div class="front-word" id="frontWord"></div>
+      <div class="front-word" id="frontWord">loading…</div>
       <div class="front-hint">tap to flip</div>
     </div>
+
     <div class="card-face card-back">
       <div class="back-echo" id="backEcho"></div>
       <div id="backContent"></div>
@@ -52,8 +60,14 @@
 
 <div class="controls">
   <button class="btn btn-ghost" id="btnPrev">← Prev</button>
-  <button class="btn btn-ghost" id="btnShuffle">↻</button>
+  <button class="btn btn-ghost" id="btnShuffle" title="Reshuffle">↻</button>
   <button class="btn btn-next" id="btnNext">Next →</button>
+</div>
+
+<div class="kh">
+  <div><kbd>Space</kbd> flip</div>
+  <div><kbd>←</kbd><kbd>→</kbd> nav</div>
+  <div><kbd>S</kbd> shuffle</div>
 </div>
 
 <script src="app.js" defer></script>
